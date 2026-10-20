@@ -1,0 +1,1266 @@
+/* =========================================================
+   CHALLENGE PAGE
+========================================================= */
+
+.challenge-page {
+  min-height: calc(100vh - 76px);
+  padding: 70px 7% 90px;
+  background:
+    radial-gradient(
+      circle at 15% 5%,
+      rgba(37, 99, 235, 0.09),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(96, 165, 250, 0.09),
+      transparent 30%
+    ),
+    #f6f9ff;
+  color: #0f172a;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.challenge-hero {
+  max-width: 850px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+.challenge-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 15px;
+  margin-bottom: 22px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.8);
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.challenge-hero h1 {
+  margin: 0;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 850;
+}
+
+.challenge-hero h1 span {
+  color: #2563eb;
+}
+
+.challenge-hero p {
+  max-width: 680px;
+  margin: 25px auto 0;
+  color: #64748b;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   CHALLENGE MODES
+========================================================= */
+
+.challenge-modes {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.challenge-section-heading {
+  margin-bottom: 30px;
+}
+
+.challenge-section-heading p {
+  margin-bottom: 8px;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.challenge-section-heading h2 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -1px;
+}
+
+.challenge-section-heading h2 span {
+  color: #2563eb;
+}
+
+.challenge-section-heading > span {
+  color: #64748b;
+}
+
+
+/* =========================================================
+   CHALLENGE CARDS
+========================================================= */
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.challenge-card {
+  position: relative;
+  min-height: 330px;
+  padding: 28px;
+  border: 1px solid #dbeafe;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 12px 35px rgba(37, 99, 235, 0.06);
+  backdrop-filter: blur(18px);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.challenge-card:hover {
+  transform: translateY(-7px);
+  border-color: #93c5fd;
+  box-shadow:
+    0 25px 50px rgba(37, 99, 235, 0.13);
+}
+
+.challenge-card.selected {
+  border-color: #2563eb;
+  box-shadow:
+    0 20px 45px rgba(37, 99, 235, 0.16);
+}
+
+.challenge-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.challenge-number {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.challenge-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      135deg,
+      #dbeafe,
+      #ede9fe
+    );
+  font-size: 27px;
+  box-shadow:
+    inset 0 0 0 1px rgba(37, 99, 235, 0.08);
+}
+
+.challenge-card h3 {
+  margin: 0 0 14px;
+  font-size: 25px;
+  letter-spacing: -0.5px;
+}
+
+.challenge-card p {
+  min-height: 72px;
+  margin: 0 0 25px;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   CHALLENGE BUTTON
+========================================================= */
+
+.challenge-button {
+  width: 100%;
+  padding: 13px 18px;
+  border: 0;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+  color: white;
+  font-size: 14px;
+  font-weight: 750;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.challenge-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.22);
+}
+
+
+/* =========================================================
+   CHALLENGE WORKSPACE
+========================================================= */
+
+.challenge-workspace {
+  max-width: 1250px;
+  margin: 0 auto;
+  animation: challengeFadeIn 0.35s ease;
+}
+
+@keyframes challengeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   WORKSPACE HEADER
+========================================================= */
+
+.workspace-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 35px;
+}
+
+.workspace-header h2 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+}
+
+.workspace-header > div > p:last-child {
+  max-width: 720px;
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.preview-label {
+  margin: 0 0 9px;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-button {
+  flex-shrink: 0;
+  padding: 12px 20px;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.back-button:hover {
+  background: #eff6ff;
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.08);
+}
+
+
+/* =========================================================
+   DECODE LAYOUT
+========================================================= */
+
+.decode-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.05fr)
+    minmax(380px, 0.95fr);
+  gap: 25px;
+  align-items: stretch;
+}
+
+
+/* =========================================================
+   DFA PANEL
+========================================================= */
+
+.dfa-panel {
+  min-height: 620px;
+  padding: 28px;
+  border: 1px solid #dbeafe;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 15px 40px rgba(37, 99, 235, 0.07);
+  backdrop-filter: blur(18px);
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.alphabet-label {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   DFA MACHINE
+========================================================= */
+
+.dfa-machine {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-top: 25px;
+  border: 1px solid #dbeafe;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(248, 250, 252, 0.95),
+      rgba(239, 246, 255, 0.78)
+    );
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   DFA STATES
+========================================================= */
+
+.dfa-state {
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 3px solid #2563eb;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.15);
+  z-index: 10;
+}
+
+
+/* q0 - START STATE */
+
+.start-state {
+  left: 12%;
+  top: 34%;
+}
+
+
+/* q1 - FINAL STATE */
+
+.final-state {
+  right: 12%;
+  top: 34%;
+  border-color: #16a34a;
+  box-shadow:
+    0 10px 25px rgba(22, 163, 74, 0.14);
+}
+
+
+/* q1 DOUBLE CIRCLE */
+
+.final-state::after {
+  content: "";
+  position: absolute;
+  width: 78px;
+  height: 78px;
+  border: 2px solid #16a34a;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+
+/* STATE TEXT */
+
+.state-label {
+  position: relative;
+  z-index: 20;
+  font-size: 20px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.state-type {
+  position: relative;
+  z-index: 20;
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   DFA TRANSITION ARROWS
+========================================================= */
+
+.dfa-arrow {
+  position: absolute;
+  height: 3px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   q0 --1--> q1
+
+   IMPORTANT:
+   This line is EXACTLY at the center of q0 and q1.
+========================================================= */
+
+.arrow-one {
+  left: calc(12% + 92px);
+  right: calc(12% + 92px);
+  width: auto;
+  top: calc(34% + 46px);
+  height: 3px;
+  background: #2563eb !important;
+}
+
+
+/* RIGHT ARROWHEAD */
+
+.arrow-one::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -5px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid #2563eb !important;
+  border-right: 0 !important;
+}
+
+
+/* 1 LABEL */
+
+.arrow-one span {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.06);
+  z-index: 20;
+}
+
+
+/* =========================================================
+   q1 --0--> q0
+
+   LOWER RETURN TRANSITION
+========================================================= */
+
+.arrow-two {
+  left: calc(12% + 92px);
+  right: calc(12% + 92px);
+  width: auto;
+  top: calc(34% + 78px);
+  height: 3px;
+  background: #2563eb !important;
+}
+
+
+/* LEFT ARROWHEAD */
+
+.arrow-two::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: auto;
+  top: -5px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent !important;
+  border-bottom: 6px solid transparent !important;
+  border-right: 10px solid #2563eb !important;
+  border-left: 0 !important;
+}
+
+
+/* 0 LABEL */
+
+.arrow-two span {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.06);
+  z-index: 20;
+}
+
+
+/* =========================================================
+   DFA SELF LOOPS
+========================================================= */
+
+.dfa-loop {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  box-sizing: border-box;
+  border: 2px solid #64748b;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+
+/* LOOP ARROWHEAD */
+
+.dfa-loop::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  bottom: 4px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #64748b;
+  transform: rotate(35deg);
+}
+
+
+/* LOOP LABEL */
+
+.dfa-loop span {
+  position: absolute;
+  left: 50%;
+  top: -25px;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   q0 SELF LOOP
+   q0 --0--> q0
+
+   Positioned directly ABOVE q0.
+========================================================= */
+
+.loop-zero {
+  left: calc(12% + 18px);
+  top: 8%;
+  border-color: #64748b;
+}
+
+.loop-zero::after {
+  border-left-color: #64748b;
+}
+
+
+/* =========================================================
+   q1 SELF LOOP
+   q1 --1--> q1
+
+   Positioned directly ABOVE q1.
+========================================================= */
+
+.loop-one {
+  right: calc(12% + 18px);
+  top: 8%;
+  border-color: #16a34a;
+}
+
+.loop-one::after {
+  border-left-color: #16a34a;
+}
+
+
+/* =========================================================
+   TRANSITION TABLE
+========================================================= */
+
+.transition-table {
+  margin-top: 25px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  border-radius: 15px;
+  background: white;
+}
+
+.table-title {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.transition-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+  font-size: 14px;
+  text-align: center;
+}
+
+.transition-row:last-child {
+  border-bottom: 0;
+}
+
+.header-row {
+  color: #0f172a;
+  font-weight: 800;
+  background: #f8fafc;
+}
+
+
+/* =========================================================
+   QUESTION PANEL
+========================================================= */
+
+.question-panel {
+  min-height: 620px;
+  padding: 30px;
+  border: 1px solid #dbeafe;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 15px 40px rgba(37, 99, 235, 0.07);
+  backdrop-filter: blur(18px);
+}
+
+.question-number {
+  display: inline-flex;
+  padding: 7px 11px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+
+.question-panel h3 {
+  margin: 0 0 12px;
+  font-size: 25px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+.question-help {
+  margin: 0 0 25px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   ANSWER OPTIONS
+========================================================= */
+
+.answer-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.answer-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 13px;
+  background: #ffffff;
+  color: #334155;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.answer-option:hover {
+  transform: translateX(3px);
+  border-color: #93c5fd;
+  background: #f8fbff;
+}
+
+.answer-option.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.08);
+}
+
+.answer-option.correct {
+  border-color: #22c55e;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.answer-option.incorrect {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.option-letter {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.answer-option.selected .option-letter {
+  background: #2563eb;
+  color: white;
+}
+
+.answer-option.correct .option-letter {
+  background: #22c55e;
+  color: white;
+}
+
+.answer-option.incorrect .option-letter {
+  background: #ef4444;
+  color: white;
+}
+
+.answer-icon {
+  margin-left: auto;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #22c55e;
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.submit-answer {
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.submit-answer:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 25px rgba(37, 99, 235, 0.22);
+}
+
+.submit-answer:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+
+/* =========================================================
+   ANSWER RESULT
+========================================================= */
+
+.answer-result {
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 15px;
+  animation: resultAppear 0.3s ease;
+}
+
+@keyframes resultAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-correct {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.result-wrong {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.result-title {
+  margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.answer-result p {
+  margin: 7px 0;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   EXAMPLES
+========================================================= */
+
+.example-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}
+
+.example-box strong {
+  margin-right: 4px;
+}
+
+.example-box span {
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: white;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TRY AGAIN
+========================================================= */
+
+.try-again-button {
+  margin-top: 18px;
+  padding: 10px 15px;
+  border: 1px solid currentColor;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.try-again-button:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   COMING SOON
+========================================================= */
+
+.coming-soon-card {
+  max-width: 850px;
+  margin: 20px auto 0;
+  padding: 45px;
+  border: 1px solid #dbeafe;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow:
+    0 15px 40px rgba(37, 99, 235, 0.07);
+  text-align: center;
+  backdrop-filter: blur(18px);
+}
+
+.coming-soon-icon {
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      135deg,
+      #dbeafe,
+      #ede9fe
+    );
+  font-size: 35px;
+}
+
+.coming-soon-card h3 {
+  margin: 0 0 12px;
+  font-size: 28px;
+}
+
+.coming-soon-card > p {
+  max-width: 600px;
+  margin: 0 auto 25px;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.feature-preview {
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 9px auto;
+  padding: 11px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.feature-preview span {
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+  .decode-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dfa-panel,
+  .question-panel {
+    min-height: auto;
+  }
+
+  .dfa-machine {
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .challenge-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .challenge-card {
+    min-height: auto;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .challenge-page {
+    padding: 50px 5% 70px;
+  }
+
+  .challenge-hero {
+    margin-bottom: 45px;
+  }
+
+  .challenge-hero h1 {
+    letter-spacing: -1.5px;
+  }
+
+  .challenge-hero p {
+    font-size: 15px;
+  }
+
+  .challenge-card {
+    padding: 23px;
+    border-radius: 20px;
+  }
+
+  .workspace-header {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .back-button {
+    width: 100%;
+  }
+
+  .dfa-panel,
+  .question-panel {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+
+  /* =======================================================
+     MOBILE DFA MACHINE
+  ======================================================= */
+
+  .dfa-machine {
+    height: 270px;
+  }
+
+
+  /* =======================================================
+     MOBILE STATES
+  ======================================================= */
+
+  .dfa-state {
+    width: 76px;
+    height: 76px;
+  }
+
+  .start-state {
+    left: 8%;
+    top: 34%;
+  }
+
+  .final-state {
+    right: 8%;
+    top: 34%;
+  }
+
+  .final-state::after {
+    width: 65px;
+    height: 65px;
+  }
+
+  .state-label {
+    font-size: 17px;
+  }
+
+  .state-type {
+    font-size: 6px;
+  }
+
+
+  /* =======================================================
+     MOBILE q0 --1--> q1
+  ======================================================= */
+
+  .arrow-one {
+    left: calc(8% + 76px);
+    right: calc(8% + 76px);
+    width: auto;
+    top: calc(34% + 38px);
+    height: 3px;
+    background: #2563eb !important;
+  }
+
+  .arrow-one::after {
+    right: -2px;
+    top: -5px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid #2563eb !important;
+    border-right: 0 !important;
+  }
+
+  .arrow-one span {
+    top: -30px;
+  }
+
+
+  /* =======================================================
+     MOBILE q1 --0--> q0
+  ======================================================= */
+
+  .arrow-two {
+    left: calc(8% + 76px);
+    right: calc(8% + 76px);
+    width: auto;
+    top: calc(34% + 64px);
+    height: 3px;
+    background: #2563eb !important;
+  }
+
+  .arrow-two::after {
+    left: -2px;
+    right: auto;
+    top: -5px;
+    border-top: 6px solid transparent !important;
+    border-bottom: 6px solid transparent !important;
+    border-right: 10px solid #2563eb !important;
+    border-left: 0 !important;
+  }
+
+  .arrow-two span {
+    top: 7px;
+  }
+
+
+  /* =======================================================
+     MOBILE SELF LOOPS
+  ======================================================= */
+
+  .loop-zero {
+    left: calc(8% + 10px);
+    top: 8%;
+  }
+
+  .loop-one {
+    right: calc(8% + 10px);
+    top: 8%;
+  }
+
+
+  /* =======================================================
+     QUESTION PANEL
+  ======================================================= */
+
+  .question-panel h3 {
+    font-size: 22px;
+  }
+
+  .answer-option {
+    font-size: 13px;
+  }
+
+
+  /* =======================================================
+     COMING SOON
+  ======================================================= */
+
+  .coming-soon-card {
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+
+  .challenge-preview {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .preview-button {
+    width: 100%;
+  }
+}

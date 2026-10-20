@@ -1,0 +1,43 @@
+/* =========================
+   APP GLOBAL STYLES
+========================= */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+main {
+  width: 100%;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Prevent horizontal overflow */
+
+body {
+  overflow-x: hidden;
+}
+
+/* Common button reset */
+
+button {
+  border: none;
+  outline: none;
+}
+
+/* Common focus style */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}

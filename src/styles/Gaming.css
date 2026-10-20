@@ -1,0 +1,1110 @@
+/* =====================================================
+   GAMING PAGE
+===================================================== */
+
+.gaming-page {
+  min-height: calc(100vh - 72px);
+
+  background:
+    radial-gradient(
+      circle at 15% 5%,
+      rgba(37, 99, 235, 0.08),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(79, 70, 229, 0.06),
+      transparent 30%
+    ),
+    #f6f9ff;
+
+  color: #0f172a;
+}
+
+
+/* =====================================================
+   GAMING HEADER
+===================================================== */
+
+.gaming-header {
+  min-height: 570px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 70px;
+
+  padding: 80px 8%;
+
+  background:
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(59, 130, 246, 0.08),
+      transparent 30%
+    ),
+    #eaf2ff;
+}
+
+.gaming-header-content {
+  max-width: 620px;
+}
+
+.gaming-label {
+  margin: 0 0 15px;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.8px;
+}
+
+.gaming-header h1 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(50px, 6vw, 76px);
+
+  line-height: 1;
+
+  letter-spacing: -3px;
+}
+
+.gaming-header h1 span {
+  display: block;
+
+  margin-top: 8px;
+
+  color: #2563eb;
+
+  text-shadow:
+    0 0 30px rgba(59, 130, 246, 0.18);
+}
+
+.gaming-intro {
+  max-width: 570px;
+
+  margin-top: 28px;
+
+  color: #64748b;
+
+  font-size: 18px;
+
+  line-height: 1.75;
+}
+
+.gaming-header-tags {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 30px;
+}
+
+.gaming-header-tags span {
+  padding: 7px 10px;
+
+  border: 1px solid rgba(37, 99, 235, 0.18);
+
+  border-radius: 6px;
+
+  background: rgba(37, 99, 235, 0.07);
+
+  color: #2563eb;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   MINI ARENA
+===================================================== */
+
+.gaming-hero-visual {
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.mini-arena {
+  width: 450px;
+  height: 360px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(37, 99, 235, 0.18);
+
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.68);
+
+  box-shadow:
+    0 30px 70px rgba(15, 23, 42, 0.10),
+    0 0 45px rgba(37, 99, 235, 0.08);
+
+  backdrop-filter: blur(15px);
+
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.mini-arena-top {
+  height: 52px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+
+  color: #64748b;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.mini-arena-top span:last-child {
+  color: #2563eb;
+}
+
+.mini-arena-body {
+  position: relative;
+
+  height: 308px;
+
+  background:
+    linear-gradient(
+      rgba(37, 99, 235, 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(37, 99, 235, 0.07) 1px,
+      transparent 1px
+    );
+
+  background-size: 36px 36px;
+}
+
+
+/* =====================================================
+   MINI FSM STATES
+===================================================== */
+
+.mini-state {
+  position: absolute;
+
+  width: 70px;
+  height: 70px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #3b82f6;
+
+  border-radius: 50%;
+
+  background: #e0edff;
+
+  color: #2563eb;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.5px;
+
+  box-shadow:
+    0 0 25px rgba(59, 130, 246, 0.16);
+}
+
+.mini-state-1 {
+  top: 50px;
+  left: 45px;
+}
+
+.mini-state-2 {
+  top: 155px;
+  left: 190px;
+}
+
+.mini-state-3 {
+  top: 50px;
+  right: 45px;
+
+  border-color: #818cf8;
+
+  background: #eeecff;
+}
+
+
+/* =====================================================
+   MINI BOTS
+===================================================== */
+
+.mini-bot {
+  position: absolute;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  border: 2px solid #93c5fd;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 0 25px rgba(37, 99, 235, 0.35);
+}
+
+.mini-alpha {
+  left: 45px;
+  bottom: 30px;
+}
+
+.mini-beta {
+  right: 45px;
+  bottom: 30px;
+
+  background: #4f46e5;
+
+  border-color: #a5b4fc;
+}
+
+.mini-vs {
+  position: absolute;
+
+  left: 50%;
+  bottom: 43px;
+
+  transform: translateX(-50%);
+
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+
+/* =====================================================
+   BOT SELECTION
+===================================================== */
+
+.bot-selection {
+  padding: 110px 8%;
+
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(37, 99, 235, 0.06),
+      transparent 30%
+    ),
+    #eef5ff;
+}
+
+.gaming-section-heading {
+  margin-bottom: 55px;
+}
+
+.section-heading {
+  max-width: 720px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #10203f;
+
+  font-size: clamp(35px, 4vw, 50px);
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+}
+
+.section-heading > p:last-child {
+  max-width: 620px;
+
+  margin: 20px auto 0;
+
+  color: #64748b;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================================
+   BOT CARDS
+===================================================== */
+
+.bot-grid {
+  max-width: 950px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 22px;
+}
+
+.bot-card {
+  position: relative;
+
+  padding: 30px;
+
+  border: 1px solid rgba(37, 99, 235, 0.14);
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.88),
+      rgba(239, 246, 255, 0.76)
+    );
+
+  backdrop-filter: blur(16px);
+
+  -webkit-backdrop-filter: blur(16px);
+
+  transition: 0.3s ease;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.bot-card:hover {
+  transform: translateY(-7px);
+
+  border-color: rgba(37, 99, 235, 0.38);
+
+  box-shadow:
+    0 25px 55px rgba(15, 23, 42, 0.12),
+    0 0 30px rgba(37, 99, 235, 0.08);
+}
+
+.bot-card-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.bot-avatar {
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 17px;
+
+  font-size: 30px;
+}
+
+.alpha-avatar {
+  background: rgba(37, 99, 235, 0.10);
+
+  border: 1px solid rgba(37, 99, 235, 0.20);
+}
+
+.beta-avatar {
+  background: rgba(79, 70, 229, 0.10);
+
+  border: 1px solid rgba(129, 140, 248, 0.22);
+}
+
+.bot-number {
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.bot-info h3 {
+  margin: 25px 0 5px;
+
+  color: #10203f;
+
+  font-size: 25px;
+}
+
+.bot-type {
+  margin: 0;
+
+  color: #2563eb;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.bot-stats {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 10px;
+
+  margin-top: 30px;
+}
+
+.stat {
+  padding: 15px 10px;
+
+  border: 1px solid rgba(37, 99, 235, 0.12);
+
+  border-radius: 10px;
+
+  background: rgba(239, 246, 255, 0.75);
+
+  text-align: center;
+}
+
+.stat strong {
+  display: block;
+
+  color: #10203f;
+
+  font-size: 20px;
+}
+
+.stat span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #64748b;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.bot-status {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 25px;
+
+  color: #64748b;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.bot-status span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #3b82f6;
+
+  box-shadow:
+    0 0 10px rgba(59, 130, 246, 0.7);
+}
+
+
+/* =====================================================
+   VS
+===================================================== */
+
+.vs-section {
+  max-width: 950px;
+
+  margin: 40px auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.vs-line {
+  flex: 1;
+
+  height: 1px;
+
+  background: rgba(148, 163, 184, 0.30);
+}
+
+.vs {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 0 25px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =====================================================
+   START BATTLE
+===================================================== */
+
+.start-battle-container {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 20px;
+}
+
+.start-battle-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+
+  padding: 0 28px;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 12px 30px rgba(37, 99, 235, 0.25);
+
+  transition: 0.25s ease;
+}
+
+.start-battle-button:hover {
+  background: #3b82f6;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 17px 35px rgba(37, 99, 235, 0.35);
+}
+
+
+/* =====================================================
+   FSM INFORMATION
+===================================================== */
+
+.fsm-info {
+  padding: 110px 8%;
+
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(37, 99, 235, 0.07),
+      transparent 30%
+    ),
+    #f6f9ff;
+
+  color: #10203f;
+}
+
+.fsm-info-content {
+  max-width: 1100px;
+
+  margin: auto;
+}
+
+.fsm-info-heading {
+  max-width: 650px;
+}
+
+.fsm-info .gaming-label {
+  color: #2563eb;
+}
+
+.fsm-info-heading h2 {
+  margin: 0;
+
+  color: #10203f;
+
+  font-size: clamp(42px, 5vw, 60px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+}
+
+.fsm-info-heading h2 span {
+  color: #2563eb;
+}
+
+.fsm-info-heading > p:last-child {
+  margin-top: 22px;
+
+  color: #64748b;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================================
+   FSM STATES
+===================================================== */
+
+.fsm-states {
+  margin-top: 60px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.fsm-state {
+  flex: 1;
+
+  min-height: 150px;
+
+  padding: 22px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  border: 1px solid rgba(37, 99, 235, 0.14);
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.88),
+      rgba(239, 246, 255, 0.76)
+    );
+
+  backdrop-filter: blur(14px);
+
+  -webkit-backdrop-filter: blur(14px);
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 15px 40px rgba(15, 23, 42, 0.07);
+}
+
+.fsm-state:hover {
+  border-color: #3b82f6;
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 15px 35px rgba(37, 99, 235, 0.12);
+}
+
+.fsm-state-number {
+  color: #94a3b8;
+
+  font-size: 9px;
+
+  font-weight: 900;
+}
+
+.fsm-state strong {
+  margin-top: 18px;
+
+  color: #2563eb;
+
+  font-size: 18px;
+}
+
+.fsm-state > span:last-child {
+  margin-top: 6px;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+.fsm-arrow {
+  color: #3b82f6;
+
+  font-size: 20px;
+
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   BATTLE LOGIC
+===================================================== */
+
+.battle-logic {
+  padding: 110px 8%;
+
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(37, 99, 235, 0.06),
+      transparent 30%
+    ),
+    #eef5ff;
+}
+
+.logic-grid {
+  max-width: 1100px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 16px;
+}
+
+.logic-card {
+  padding: 25px;
+
+  min-height: 270px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  border: 1px solid rgba(37, 99, 235, 0.14);
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.88),
+      rgba(239, 246, 255, 0.76)
+    );
+
+  backdrop-filter: blur(15px);
+
+  -webkit-backdrop-filter: blur(15px);
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 15px 40px rgba(15, 23, 42, 0.07);
+}
+
+.logic-card:hover {
+  transform: translateY(-6px);
+
+  border-color: rgba(37, 99, 235, 0.38);
+
+  box-shadow:
+    0 20px 45px rgba(15, 23, 42, 0.12),
+    0 0 25px rgba(37, 99, 235, 0.08);
+}
+
+.logic-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: rgba(37, 99, 235, 0.10);
+
+  color: #2563eb;
+
+  border: 1px solid rgba(37, 99, 235, 0.18);
+
+  font-weight: 900;
+
+  font-size: 18px;
+}
+
+.logic-card h3 {
+  margin: 25px 0 10px;
+
+  color: #10203f;
+
+  font-size: 18px;
+}
+
+.logic-card p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  line-height: 1.65;
+}
+
+.logic-card strong {
+  margin-top: auto;
+
+  padding-top: 20px;
+
+  color: #2563eb;
+
+  font-size: 10px;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* =====================================================
+   FINAL CTA
+===================================================== */
+
+.gaming-cta {
+  padding: 120px 8%;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(37, 99, 235, 0.10),
+      transparent 45%
+    ),
+    #eaf2ff;
+}
+
+.gaming-cta h2 {
+  margin: 0;
+
+  color: #10203f;
+
+  font-size: clamp(43px, 5vw, 65px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+}
+
+.gaming-cta > p:not(.gaming-label) {
+  max-width: 520px;
+
+  margin: 20px auto 30px;
+
+  color: #64748b;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+.cta-battle-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+
+  padding: 0 27px;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  transition: 0.25s ease;
+
+  box-shadow:
+    0 12px 30px rgba(37, 99, 235, 0.22);
+}
+
+.cta-battle-button:hover {
+  background: #3b82f6;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 17px 35px rgba(37, 99, 235, 0.32);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .gaming-header {
+    gap: 40px;
+  }
+
+  .logic-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 850px) {
+
+  .gaming-header {
+    flex-direction: column;
+
+    text-align: center;
+
+    padding-top: 70px;
+  }
+
+  .gaming-header-content {
+    max-width: 700px;
+  }
+
+  .gaming-intro {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .gaming-header-tags {
+    justify-content: center;
+  }
+
+  .fsm-states {
+    flex-direction: column;
+
+    max-width: 500px;
+  }
+
+  .fsm-state {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .fsm-arrow {
+    transform: rotate(90deg);
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .gaming-header,
+  .bot-selection,
+  .fsm-info,
+  .battle-logic,
+  .gaming-cta {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .gaming-header h1 {
+    font-size: 50px;
+  }
+
+  .mini-arena {
+    width: 100%;
+  }
+
+  .bot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .logic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bot-stats {
+    gap: 6px;
+  }
+
+}

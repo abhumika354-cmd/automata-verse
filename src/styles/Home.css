@@ -1,0 +1,1463 @@
+/* =====================================================
+   HOME PAGE
+===================================================== */
+
+.home-page {
+  min-height: calc(100vh - 72px);
+
+  background:
+    radial-gradient(
+      circle at 15% 5%,
+      rgba(37, 99, 235, 0.10),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(96, 165, 250, 0.10),
+      transparent 30%
+    ),
+    #f6f9ff;
+
+  color: #0f172a;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero-section {
+  min-height: 650px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 70px;
+
+  padding: 90px 8%;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(59, 130, 246, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(37, 99, 235, 0.08),
+      transparent 28%
+    ),
+    #eaf2ff;
+}
+
+.hero-content {
+  max-width: 650px;
+}
+
+.hero-badge {
+  display: inline-block;
+
+  padding: 8px 15px;
+
+  border: 1px solid rgba(37, 99, 235, 0.25);
+
+  border-radius: 30px;
+
+  background: rgba(37, 99, 235, 0.08);
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.hero-content h1 {
+  margin: 24px 0 0;
+
+  font-size: clamp(48px, 6vw, 78px);
+
+  line-height: 0.98;
+
+  letter-spacing: -3px;
+
+  font-weight: 850;
+
+  color: #0f172a;
+}
+
+.hero-content h1 span {
+  display: block;
+
+  margin-top: 10px;
+
+  color: #2563eb;
+}
+
+.hero-description {
+  max-width: 590px;
+
+  margin-top: 28px;
+
+  color: #475569;
+
+  font-size: 18px;
+
+  line-height: 1.75;
+}
+
+.hero-buttons {
+  display: flex;
+
+  gap: 14px;
+
+  margin-top: 35px;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 50px;
+
+  padding: 0 23px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  transition: 0.25s ease;
+}
+
+.primary-button {
+  background: #2563eb;
+
+  color: white;
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.primary-button:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 15px 30px rgba(37, 99, 235, 0.4);
+}
+
+.secondary-button {
+  background: rgba(255, 255, 255, 0.75);
+
+  color: #1e3a8a;
+
+  border: 1px solid rgba(37, 99, 235, 0.20);
+
+  backdrop-filter: blur(10px);
+}
+
+.secondary-button:hover {
+  border-color: #60a5fa;
+
+  color: #1d4ed8;
+
+  transform: translateY(-3px);
+
+  background: rgba(219, 234, 254, 0.9);
+}
+
+.hero-tech-line {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 35px;
+
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* =====================================================
+   ARENA PREVIEW
+===================================================== */
+
+.hero-visual {
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.arena-preview {
+  position: relative;
+
+  width: 480px;
+
+  height: 410px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(37, 99, 235, 0.25);
+
+  border-radius: 24px;
+
+  background: #08111f;
+
+  box-shadow:
+    0 30px 70px rgba(15, 23, 42, 0.25),
+    0 0 50px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =====================================================
+   ARENA TOP
+===================================================== */
+
+.arena-top {
+  height: 55px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 22px;
+
+  border-bottom: 1px solid #1e293b;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
+  position: relative;
+
+  z-index: 20;
+}
+
+.live-indicator {
+  color: #60a5fa;
+}
+
+
+/* =====================================================
+   HOME ARENA GRID
+   IMPORTANT:
+   Scoped under .home-page so Battle.css
+   cannot override this grid.
+===================================================== */
+
+.home-page .arena-grid {
+  position: relative;
+
+  width: 100%;
+
+  height: 300px;
+
+  display: block;
+
+  overflow: hidden;
+
+  background-image:
+    linear-gradient(
+      rgba(59, 130, 246, 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(59, 130, 246, 0.07) 1px,
+      transparent 1px
+    );
+
+  background-size: 40px 40px;
+
+  z-index: 1;
+}
+
+
+/* =====================================================
+   FSM STATES
+===================================================== */
+
+.home-page .arena-state {
+  position: absolute;
+
+  width: 66px;
+
+  height: 66px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 2px solid #3b82f6;
+
+  border-radius: 50%;
+
+  background: #102a4c;
+
+  color: white;
+
+  box-shadow:
+    0 0 0 7px rgba(59, 130, 246, 0.05),
+    0 0 25px rgba(59, 130, 246, 0.18);
+
+  z-index: 10;
+
+  box-sizing: border-box;
+}
+
+.home-page .arena-state span {
+  font-size: 18px;
+
+  font-weight: 800;
+}
+
+.home-page .arena-state small {
+  margin-top: 3px;
+
+  color: #93c5fd;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+.home-page .state-a {
+  top: 30px;
+
+  left: 55px;
+}
+
+.home-page .state-b {
+  top: 135px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
+.home-page .state-c {
+  top: 30px;
+
+  right: 55px;
+
+  border-color: #818cf8;
+
+  background: #29245b;
+}
+
+
+/* =====================================================
+   STATE CONNECTIONS
+===================================================== */
+
+.home-page .arena-line {
+  position: absolute;
+
+  height: 2px;
+
+  background: #334155;
+
+  transform-origin: left center;
+
+  z-index: 4;
+
+  pointer-events: none;
+}
+
+.home-page .line-1 {
+  width: 125px;
+
+  top: 63px;
+
+  left: 108px;
+
+  transform: rotate(32deg);
+}
+
+.home-page .line-2 {
+  width: 125px;
+
+  top: 168px;
+
+  left: 257px;
+
+  transform: rotate(-32deg);
+}
+
+.home-page .line-3 {
+  width: 145px;
+
+  top: 168px;
+
+  left: 75px;
+
+  transform: rotate(0deg);
+}
+
+.home-page .line-4 {
+  width: 85px;
+
+  top: 63px;
+
+  left: 300px;
+
+  transform: rotate(0deg);
+}
+
+
+/* =====================================================
+   HOME BOTS
+   IMPORTANT:
+   Scoped to prevent Battle.css conflict.
+===================================================== */
+
+.home-page .arena-bot {
+  position: absolute;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 6px;
+
+  width: 90px;
+
+  text-align: center;
+
+  z-index: 15;
+
+  color: #cbd5e1;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+
+  transform: none;
+
+  transition: none;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   BOT CIRCLE
+===================================================== */
+
+.home-page .bot-circle {
+  width: 42px;
+
+  height: 42px;
+
+  min-width: 42px;
+
+  min-height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #60a5fa,
+      #2563eb 55%,
+      #1e3a8a
+    );
+
+  border: 2px solid #93c5fd;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  box-shadow:
+    0 0 20px rgba(37, 99, 235, 0.35),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.2),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.2);
+
+  box-sizing: border-box;
+}
+
+.home-page .bot-beta .bot-circle {
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #a78bfa,
+      #4f46e5 55%,
+      #312e81
+    );
+
+  border-color: #a5b4fc;
+
+  box-shadow:
+    0 0 20px rgba(79, 70, 229, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.2),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* =====================================================
+   BOT POSITIONS
+===================================================== */
+
+.home-page .bot-alpha {
+  left: 48px;
+
+  bottom: 40px;
+}
+
+.home-page .bot-beta {
+  right: 48px;
+
+  bottom: 40px;
+}
+
+
+/* =====================================================
+   BOT LABELS
+===================================================== */
+
+.home-page .arena-bot > span {
+  display: block;
+
+  width: 100%;
+
+  color: #cbd5e1;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  line-height: 1.2;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   VS
+===================================================== */
+
+.home-page .arena-vs {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 12px;
+
+  transform: translateX(-50%);
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  z-index: 16;
+
+  text-shadow:
+    0 0 15px rgba(96, 165, 250, 0.35);
+}
+
+
+/* =====================================================
+   ARENA FOOTER
+===================================================== */
+
+.arena-footer {
+  height: 55px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 22px;
+
+  border-top: 1px solid #1e293b;
+
+  color: #64748b;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  position: relative;
+
+  z-index: 20;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   LEARNING SECTION
+===================================================== */
+
+.learning-section {
+  padding: 110px 8%;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(37, 99, 235, 0.08),
+      transparent 30%
+    ),
+    #f6f9ff;
+}
+
+.section-heading {
+  max-width: 720px;
+
+  margin: 0 auto 60px;
+
+  text-align: center;
+}
+
+.section-label {
+  margin: 0 0 14px;
+
+  color: #2563eb;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.8px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(34px, 4vw, 50px);
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+}
+
+.section-heading > p:last-child {
+  max-width: 620px;
+
+  margin: 20px auto 0;
+
+  color: #64748b;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================================
+   LEARNING CARDS
+===================================================== */
+
+.learning-cards {
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 22px;
+}
+
+.learning-card {
+  position: relative;
+
+  min-height: 430px;
+
+  padding: 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  border: 1px solid #dce6f2;
+
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  text-decoration: none;
+
+  transition: 0.3s ease;
+
+  overflow: hidden;
+}
+
+.learning-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+
+  height: 150px;
+
+  top: -70px;
+
+  right: -70px;
+
+  border-radius: 50%;
+
+  background: #eff6ff;
+
+  transition: 0.3s ease;
+}
+
+.learning-card:hover {
+  transform: translateY(-8px);
+
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 25px 50px rgba(15, 23, 42, 0.12);
+}
+
+.learning-card:hover::before {
+  transform: scale(1.5);
+}
+
+.card-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.card-number {
+  color: #94a3b8;
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.card-icon {
+  width: 58px;
+
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 15px;
+
+  font-size: 25px;
+}
+
+
+/* =====================================================
+   CARD ICON COLORS
+===================================================== */
+
+.gaming-icon {
+  background:
+    linear-gradient(
+      135deg,
+      #dbeafe,
+      #ede9fe
+    );
+
+  color: #2563eb;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(37, 99, 235, 0.08);
+}
+
+.pattern-icon {
+  background: #ede9fe;
+}
+
+.simulator-icon {
+  background: #dcfce7;
+}
+
+
+/* =====================================================
+   CHALLENGE CARD
+===================================================== */
+
+.challenge-card {
+  border-color: #dbeafe;
+}
+
+.challenge-card::before {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(219, 234, 254, 0.9),
+      rgba(237, 233, 254, 0.9)
+    );
+}
+
+.challenge-card:hover {
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 25px 50px rgba(37, 99, 235, 0.14);
+}
+
+.challenge-card:hover .gaming-icon {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+
+/* =====================================================
+   CARD CONTENT
+===================================================== */
+
+.card-label {
+  margin: 30px 0 10px;
+
+  color: #2563eb;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+}
+
+.learning-card h3 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 24px;
+
+  line-height: 1.25;
+}
+
+.learning-card > p:not(.card-label) {
+  color: #64748b;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+.card-tags {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: auto;
+
+  padding-top: 25px;
+}
+
+.card-tags span {
+  padding: 6px 8px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 6px;
+
+  color: #64748b;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+.card-link {
+  margin-top: 24px;
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+
+.process-section {
+  padding: 110px 8%;
+
+  background:
+    radial-gradient(
+      circle at 85% 50%,
+      rgba(37, 99, 235, 0.08),
+      transparent 30%
+    ),
+    #eef5ff;
+}
+
+.process-flow {
+  max-width: 1050px;
+
+  margin: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 20px;
+}
+
+.process-step {
+  position: relative;
+
+  flex: 1;
+
+  min-height: 245px;
+
+  padding: 28px;
+
+  border: 1px solid rgba(37, 99, 235, 0.15);
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  backdrop-filter: blur(12px);
+
+  transition: 0.3s ease;
+}
+
+.process-step:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(37, 99, 235, 0.35);
+
+  box-shadow:
+    0 20px 40px rgba(37, 99, 235, 0.12);
+}
+
+.process-number {
+  color: #94a3b8;
+
+  font-size: 11px;
+
+  font-weight: 900;
+}
+
+.process-icon {
+  width: 48px;
+
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin: 25px 0 20px;
+
+  border-radius: 12px;
+
+  background: rgba(37, 99, 235, 0.10);
+
+  color: #2563eb;
+
+  font-size: 20px;
+
+  font-weight: 900;
+}
+
+.process-step h3 {
+  margin: 0 0 10px;
+
+  color: #0f172a;
+
+  font-size: 20px;
+}
+
+.process-step p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.process-arrow {
+  color: #2563eb;
+
+  font-size: 25px;
+
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   FLAT CONCEPTS
+===================================================== */
+
+.concept-section {
+  padding: 110px 8%;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(37, 99, 235, 0.08),
+      transparent 30%
+    ),
+    #eaf2ff;
+
+  color: #0f172a;
+}
+
+.concept-content {
+  max-width: 1100px;
+
+  margin: auto;
+}
+
+.concept-section .section-label {
+  color: #2563eb;
+}
+
+.concept-content h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(38px, 5vw, 58px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+}
+
+.concept-description {
+  max-width: 650px;
+
+  margin-top: 25px;
+
+  color: #64748b;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+.concept-points {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 15px;
+
+  margin-top: 55px;
+}
+
+.concept-box {
+  min-height: 175px;
+
+  padding: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  border: 1px solid #dbeafe;
+
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  transition: 0.3s ease;
+}
+
+.concept-box:hover {
+  transform: translateY(-5px);
+
+  border-color: #3b82f6;
+
+  background: #ffffff;
+}
+
+.concept-number {
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  font-weight: 900;
+}
+
+.concept-box strong {
+  margin-top: 25px;
+
+  color: #2563eb;
+
+  font-size: 20px;
+}
+
+.concept-box span:last-child {
+  margin-top: 8px;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   FINAL CTA
+===================================================== */
+
+.final-cta {
+  position: relative;
+
+  padding: 120px 8%;
+
+  text-align: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(59, 130, 246, 0.12),
+      transparent 40%
+    ),
+    #eaf2ff;
+}
+
+.cta-glow {
+  position: absolute;
+
+  width: 300px;
+
+  height: 300px;
+
+  top: -180px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: rgba(59, 130, 246, 0.12);
+
+  filter: blur(30px);
+}
+
+.final-cta .section-label {
+  position: relative;
+
+  color: #2563eb;
+}
+
+.final-cta h2 {
+  position: relative;
+
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(42px, 5vw, 65px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+}
+
+.final-cta > p:not(.section-label) {
+  position: relative;
+
+  max-width: 500px;
+
+  margin: 20px auto 30px;
+
+  color: #64748b;
+
+  line-height: 1.6;
+}
+
+.cta-button {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 52px;
+
+  padding: 0 26px;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 12px 30px rgba(37, 99, 235, 0.3);
+
+  transition: 0.25s ease;
+}
+
+.cta-button:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-3px);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1050px) {
+
+  .hero-section {
+    gap: 40px;
+  }
+
+  .learning-cards {
+    grid-template-columns: 1fr;
+
+    max-width: 600px;
+  }
+
+  .concept-points {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+@media (max-width: 850px) {
+
+  .hero-section {
+    flex-direction: column;
+
+    text-align: center;
+
+    padding-top: 70px;
+  }
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+  .hero-description {
+    margin-left: auto;
+
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-tech-line {
+    justify-content: center;
+  }
+
+  .process-flow {
+    flex-direction: column;
+
+    max-width: 500px;
+  }
+
+  .process-step {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .process-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .hero-section,
+  .learning-section,
+  .process-section,
+  .concept-section,
+  .final-cta {
+    padding-left: 6%;
+
+    padding-right: 6%;
+  }
+
+  .hero-content h1 {
+    font-size: 48px;
+
+    letter-spacing: -2px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .arena-preview {
+    width: 100%;
+
+    height: 380px;
+  }
+
+  .home-page .arena-grid {
+    height: 270px;
+  }
+
+  .home-page .state-a {
+    left: 25px;
+  }
+
+  .home-page .state-c {
+    right: 25px;
+  }
+
+  .home-page .state-b {
+    left: 50%;
+
+    transform: translateX(-50%);
+  }
+
+  .home-page .line-1,
+  .home-page .line-2,
+  .home-page .line-3,
+  .home-page .line-4 {
+    display: none;
+  }
+
+  .home-page .arena-bot {
+    width: 80px;
+  }
+
+  .home-page .bot-alpha {
+    left: 45px;
+
+    bottom: 35px;
+  }
+
+  .home-page .bot-beta {
+    right: 45px;
+
+    bottom: 35px;
+  }
+
+  .home-page .bot-circle {
+    width: 40px;
+
+    height: 40px;
+
+    min-width: 40px;
+
+    min-height: 40px;
+  }
+
+  .home-page .arena-vs {
+    bottom: 10px;
+  }
+
+  .concept-points {
+    grid-template-columns: 1fr;
+  }
+
+  .concept-content h2 {
+    font-size: 40px;
+  }
+}
