@@ -9,6 +9,7 @@ import Simulator from "./pages/Simulator";
 import Learn from "./pages/Learn";
 import About from "./pages/About";
 import Challenge from "./pages/Challenge";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Routes>
 
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
 
         <Route path="/gaming" element={<Gaming />} />
 
