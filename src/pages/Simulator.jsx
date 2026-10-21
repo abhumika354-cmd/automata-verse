@@ -1198,12 +1198,12 @@ function Simulator() {
       previous.map((state) =>
         state.id === selectedState
           ? {
-              ...state,
-              isFinal: becomingFinal,
-              isDead: becomingFinal
-                ? false
-                : state.isDead,
-            }
+            ...state,
+            isFinal: becomingFinal,
+            isDead: becomingFinal
+              ? false
+              : state.isDead,
+          }
           : state
       )
     );
@@ -1233,14 +1233,14 @@ function Simulator() {
       previous.map((state) =>
         state.id === selectedState
           ? {
-              ...state,
+            ...state,
 
-              isDead: becomingTrap,
+            isDead: becomingTrap,
 
-              isFinal: becomingTrap
-                ? false
-                : state.isFinal,
-            }
+            isFinal: becomingTrap
+              ? false
+              : state.isFinal,
+          }
           : state
       )
     );
@@ -1408,8 +1408,8 @@ function Simulator() {
         Math.min(
           GRID_WIDTH - 70,
           event.clientX -
-            rect.left -
-            offsetX
+          rect.left -
+          offsetX
         )
       );
 
@@ -1418,8 +1418,8 @@ function Simulator() {
         Math.min(
           GRID_HEIGHT - 70,
           event.clientY -
-            rect.top -
-            offsetY
+          rect.top -
+          offsetY
         )
       );
 
@@ -1427,10 +1427,10 @@ function Simulator() {
         previous.map((state) =>
           state.id === stateId
             ? {
-                ...state,
-                x: newX,
-                y: newY,
-              }
+              ...state,
+              x: newX,
+              y: newY,
+            }
             : state
         )
       );
@@ -1450,10 +1450,10 @@ function Simulator() {
         previous.map((transition) =>
           transition.id === transitionId
             ? {
-                ...transition,
-                controlX: position.x,
-                controlY: position.y,
-              }
+              ...transition,
+              controlX: position.x,
+              controlY: position.y,
+            }
             : transition
         )
       );
@@ -1503,11 +1503,11 @@ function Simulator() {
         previous.map((transition) =>
           transition.id === existing.id
             ? {
-                ...transition,
-                to: toState,
-                controlX: undefined,
-                controlY: undefined,
-              }
+              ...transition,
+              to: toState,
+              controlX: undefined,
+              controlY: undefined,
+            }
             : transition
         )
       );
@@ -1735,7 +1735,7 @@ function Simulator() {
             (item) =>
               item.from === state &&
               item.symbol ===
-                currentSymbol
+              currentSymbol
           );
 
         if (!transition) {
@@ -1911,12 +1911,12 @@ function Simulator() {
       x:
         midX +
         perpendicularX *
-          curveOffset,
+        curveOffset,
 
       y:
         midY +
         perpendicularY *
-          curveOffset,
+        curveOffset,
     };
   };
 
@@ -1929,9 +1929,9 @@ function Simulator() {
   ) => {
     if (
       typeof transition.controlX ===
-        "number" &&
+      "number" &&
       typeof transition.controlY ===
-        "number"
+      "number"
     ) {
       return {
         x: transition.controlX,
@@ -2018,22 +2018,22 @@ function Simulator() {
     const startX =
       from.x +
       ux *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const startY =
       from.y +
       uy *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const endX =
       to.x -
       ux *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const endY =
       to.y -
       uy *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const control =
       getControlPoint(
@@ -2114,22 +2114,22 @@ function Simulator() {
     const startX =
       from.x +
       ux *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const startY =
       from.y +
       uy *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const endX =
       to.x -
       ux *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const endY =
       to.y -
       uy *
-        STATE_RADIUS;
+      STATE_RADIUS;
 
     const control =
       getControlPoint(
@@ -2157,6 +2157,13 @@ function Simulator() {
     <main className="simulator-page">
 
       {/* HERO */}
+      <button
+        type="button"
+        className="back-button"
+        onClick={() => window.history.back()}
+      >
+        ← Back
+      </button>
 
       <section className="simulator-hero">
 
@@ -2394,13 +2401,13 @@ function Simulator() {
                     running &&
                     testPath.length > 1 &&
                     testPath[
-                      testPath.length - 2
+                    testPath.length - 2
                     ] ===
-                      transition.from &&
+                    transition.from &&
                     testPath[
-                      testPath.length - 1
+                    testPath.length - 1
                     ] ===
-                      transition.to;
+                    transition.to;
 
                   return (
                     <g
@@ -2457,14 +2464,14 @@ function Simulator() {
                   "dfa-state " +
                   (
                     selectedState ===
-                    state.id
+                      state.id
                       ? "selected "
                       : ""
                   ) +
                   (
                     currentState ===
                       state.id &&
-                    running
+                      running
                       ? "running-state "
                       : ""
                   ) +
@@ -2517,8 +2524,8 @@ function Simulator() {
                     {state.isDead
                       ? "TRAP"
                       : state.isFinal
-                      ? "FINAL"
-                      : "STATE"}
+                        ? "FINAL"
+                        : "STATE"}
                   </small>
 
                 </span>
@@ -2612,7 +2619,7 @@ function Simulator() {
                   disabled={
                     running ||
                     selectedState ===
-                      startState
+                    startState
                   }
                 >
                   Delete
@@ -3022,12 +3029,12 @@ function Simulator() {
                         "test-symbol " +
                         (
                           index <
-                          testStep
+                            testStep
                             ? "done"
                             : index ===
                               testStep
-                            ? "active"
-                            : ""
+                              ? "active"
+                              : ""
                         )
                       }
                       key={index}
@@ -3067,10 +3074,10 @@ function Simulator() {
 
                         {index <
                           testPath.length - 1 && (
-                          <b>
-                            →
-                          </b>
-                        )}
+                            <b>
+                              →
+                            </b>
+                          )}
 
                       </span>
 
@@ -3097,12 +3104,12 @@ function Simulator() {
                 <div className="test-result-icon">
 
                   {testResult ===
-                  "accepted"
+                    "accepted"
                     ? "✓"
                     : testResult ===
                       "rejected"
-                    ? "×"
-                    : "!"}
+                      ? "×"
+                      : "!"}
 
                 </div>
 
@@ -3111,12 +3118,12 @@ function Simulator() {
                   <h3>
 
                     {testResult ===
-                    "accepted"
+                      "accepted"
                       ? "String Accepted"
                       : testResult ===
                         "rejected"
-                      ? "String Rejected"
-                      : "Invalid Input"}
+                        ? "String Rejected"
+                        : "Invalid Input"}
 
                   </h3>
 

@@ -397,6 +397,13 @@ function Patterns() {
 
   return (
     <main className="patterns-page">
+      <button
+        type="button"
+        className="back-button"
+        onClick={() => window.history.back()}
+      >
+        ← Back
+      </button>
       <section className="patterns-hero">
         <div className="patterns-hero-content">
           <span className="patterns-tag">
@@ -482,9 +489,8 @@ function Patterns() {
             <button
               type="button"
               key={question.id}
-              className={`question-option ${
-                selectedQuestion === question.id ? "selected" : ""
-              }`}
+              className={`question-option ${selectedQuestion === question.id ? "selected" : ""
+                }`}
               onClick={() => handleQuestionChange(question.id)}
               aria-pressed={selectedQuestion === question.id}
             >
@@ -589,16 +595,16 @@ function Patterns() {
               {result === "accepted"
                 ? "String Accepted"
                 : result === "rejected"
-                ? "String Rejected"
-                : "Invalid Input"}
+                  ? "String Rejected"
+                  : "Invalid Input"}
             </h3>
 
             <p>
               {result === "accepted"
                 ? `The string satisfies the selected rule: ${currentQuestion.title}.`
                 : result === "rejected"
-                ? `The string does not satisfy the selected rule: ${currentQuestion.title}.`
-                : `Please enter a non-empty string using only ${currentQuestion.alphabet}.`}
+                  ? `The string does not satisfy the selected rule: ${currentQuestion.title}.`
+                  : `Please enter a non-empty string using only ${currentQuestion.alphabet}.`}
             </p>
           </div>
 
@@ -642,8 +648,8 @@ function Patterns() {
                       {index === 0
                         ? "START"
                         : index === dfaStates.length - 1
-                        ? "FINAL STATE"
-                        : "CURRENT STATE"}
+                          ? "FINAL STATE"
+                          : "CURRENT STATE"}
                     </span>
                   </div>
 
