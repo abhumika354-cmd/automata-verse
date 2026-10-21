@@ -2196,17 +2196,17 @@ function Challenge() {
 
   const currentQuestion =
     decodeQuestionsPool[
-      currentQuestionIndex
+    currentQuestionIndex
     ];
 
   const currentFixQuestion =
     fixQuestionsPool[
-      fixQuestionIndex
+    fixQuestionIndex
     ];
 
   const currentBuildQuestion =
     buildQuestionsPool[
-      buildQuestionIndex
+    buildQuestionIndex
     ];
 
   /* =====================================================
@@ -2463,7 +2463,7 @@ function Challenge() {
       setCurrentQuestionIndex(
         Math.floor(
           Math.random() *
-            decodeQuestionsPool.length
+          decodeQuestionsPool.length
         )
       );
     }
@@ -2472,7 +2472,7 @@ function Challenge() {
       setFixQuestionIndex(
         Math.floor(
           Math.random() *
-            fixQuestionsPool.length
+          fixQuestionsPool.length
         )
       );
     }
@@ -2481,7 +2481,7 @@ function Challenge() {
       setBuildQuestionIndex(
         Math.floor(
           Math.random() *
-            buildQuestionsPool.length
+          buildQuestionsPool.length
         )
       );
     }
@@ -2862,7 +2862,7 @@ function Challenge() {
                       {
                         currentBuildQuestion
                           .transitions[
-                          `${state}_${symbol}`
+                        `${state}_${symbol}`
                         ]
                       }
                     </span>
@@ -2965,7 +2965,7 @@ function Challenge() {
                     {
                       currentBuildQuestion
                         .transitions[
-                        `${state}_${symbol}`
+                      `${state}_${symbol}`
                       ]
                     }
                   </span>
@@ -3017,6 +3017,14 @@ function Challenge() {
 
   return (
     <main className="challenge-page">
+      <button
+        type="button"
+        className="back-button"
+        onClick={() => window.history.back()}
+      >
+        ← Back
+      </button>
+
 
       {/* =================================================
           HERO
@@ -3138,403 +3146,399 @@ function Challenge() {
 
       {selectedMode ===
         "decode" && (
-        <section className="challenge-workspace">
+          <section className="challenge-workspace">
 
-          <div className="workspace-header">
+            <div className="workspace-header">
 
-            <div>
-              <p className="preview-label">
-                CHALLENGE 01 • DECODE
-                THE DFA
-              </p>
+              <div>
+                <p className="preview-label">
+                  CHALLENGE 01 • DECODE
+                  THE DFA
+                </p>
 
-              <h2>
-                What language does this
-                DFA accept?
-              </h2>
+                <h2>
+                  What language does this
+                  DFA accept?
+                </h2>
 
-              <p>
-                Study the states and
-                transitions carefully,
-                then select the language
-                described by this DFA.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              className="back-button"
-              onClick={handleBack}
-            >
-              ← Back
-            </button>
-
-          </div>
-
-          <div className="decode-progress">
-
-            <span>
-              Question{" "}
-              {currentQuestionIndex +
-                1}{" "}
-              of{" "}
-              {
-                decodeQuestionsPool.length
-              }
-            </span>
-
-            <button
-              type="button"
-              onClick={
-                handleRandomQuestion
-              }
-              className="submit-answer"
-            >
-              🔀 Random Question
-            </button>
-
-          </div>
-
-          <div className="decode-layout">
-
-            {/* DFA PANEL */}
-
-            <div className="dfa-panel">
-
-              <div className="panel-heading">
-
-                <span>
-                  DFA
-                </span>
-
-                <span className="alphabet-label">
-                  Alphabet:{" "}
-                  {
-                    currentQuestion.alphabet
-                  }
-                </span>
-
+                <p>
+                  Study the states and
+                  transitions carefully,
+                  then select the language
+                  described by this DFA.
+                </p>
               </div>
 
-              <DFADiagram
-                question={
-                  currentQuestion
+              <button
+                type="button"
+                className="back-button"
+                onClick={handleBack}
+              >
+                ← Back
+              </button>
+
+            </div>
+
+            <div className="decode-progress">
+
+              <span>
+                Question{" "}
+                {currentQuestionIndex +
+                  1}{" "}
+                of{" "}
+                {
+                  decodeQuestionsPool.length
                 }
-              />
+              </span>
 
-              {/* TRANSITION TABLE */}
+              <button
+                type="button"
+                onClick={
+                  handleRandomQuestion
+                }
+                className="submit-answer"
+              >
+                🔀 Random Question
+              </button>
 
-              <div className="transition-table">
+            </div>
 
-                <div className="table-title">
-                  Transition Table
+            <div className="decode-layout">
+
+              {/* DFA PANEL */}
+
+              <div className="dfa-panel">
+
+                <div className="panel-heading">
+
+                  <span>
+                    DFA
+                  </span>
+
+                  <span className="alphabet-label">
+                    Alphabet:{" "}
+                    {
+                      currentQuestion.alphabet
+                    }
+                  </span>
+
                 </div>
 
-                <div className="transition-row header-row">
-                  <span>
-                    State
-                  </span>
+                <DFADiagram
+                  question={
+                    currentQuestion
+                  }
+                />
 
-                  <span>
-                    0
-                  </span>
+                {/* TRANSITION TABLE */}
 
-                  <span>
-                    1
-                  </span>
-                </div>
+                <div className="transition-table">
 
-                {currentQuestion.states.map(
-                  (state) => {
+                  <div className="table-title">
+                    Transition Table
+                  </div>
 
-                    const zeroTransition =
-                      currentQuestion.transitions.find(
-                        (
-                          transition
-                        ) =>
-                          transition.from ===
+                  <div className="transition-row header-row">
+                    <span>
+                      State
+                    </span>
+
+                    <span>
+                      0
+                    </span>
+
+                    <span>
+                      1
+                    </span>
+                  </div>
+
+                  {currentQuestion.states.map(
+                    (state) => {
+
+                      const zeroTransition =
+                        currentQuestion.transitions.find(
+                          (
+                            transition
+                          ) =>
+                            transition.from ===
                             state.id &&
-                          transition.symbol.includes(
-                            "0"
-                          )
-                      );
+                            transition.symbol.includes(
+                              "0"
+                            )
+                        );
 
-                    const oneTransition =
-                      currentQuestion.transitions.find(
-                        (
-                          transition
-                        ) =>
-                          transition.from ===
+                      const oneTransition =
+                        currentQuestion.transitions.find(
+                          (
+                            transition
+                          ) =>
+                            transition.from ===
                             state.id &&
-                          transition.symbol.includes(
-                            "1"
-                          )
-                      );
+                            transition.symbol.includes(
+                              "1"
+                            )
+                        );
 
-                    return (
-                      <div
-                        className="transition-row"
-                        key={
-                          state.id
-                        }
-                      >
-
-                        <span>
-                          {
+                      return (
+                        <div
+                          className="transition-row"
+                          key={
                             state.id
                           }
-
-                          {state.start && (
-                            <small>
-                              {" "}
-                              START
-                            </small>
-                          )}
-
-                          {state.final && (
-                            <small>
-                              {" "}
-                              FINAL
-                            </small>
-                          )}
-                        </span>
-
-                        <span>
-                          {zeroTransition
-                            ? zeroTransition.to
-                            : "—"}
-                        </span>
-
-                        <span>
-                          {oneTransition
-                            ? oneTransition.to
-                            : "—"}
-                        </span>
-
-                      </div>
-                    );
-                  }
-                )}
-
-              </div>
-
-            </div>
-
-            {/* QUESTION PANEL */}
-
-            <div className="question-panel">
-
-              <div className="question-number">
-                QUESTION{" "}
-                {String(
-                  currentQuestion.id
-                ).padStart(
-                  2,
-                  "0"
-                )}
-              </div>
-
-              <h3>
-                Which language is
-                accepted by this DFA?
-              </h3>
-
-              <p className="question-help">
-                {
-                  currentQuestion.hint
-                }
-              </p>
-
-              <div className="answer-options">
-
-                {currentQuestion.options.map(
-                  (
-                    option,
-                    index
-                  ) => {
-
-                    const optionId =
-                      String(
-                        index
-                      );
-
-                    const isSelected =
-                      selectedAnswer ===
-                      optionId;
-
-                    const isCorrectOption =
-                      index ===
-                      currentQuestion.correct;
-
-                    const isWrongSelected =
-                      answerSubmitted &&
-                      isSelected &&
-                      !isCorrectOption;
-
-                    return (
-                      <button
-                        key={
-                          option
-                        }
-                        type="button"
-                        className={`answer-option
-                          ${
-                            isSelected
-                              ? "selected"
-                              : ""
-                          }
-                          ${
-                            answerSubmitted &&
-                            isCorrectOption
-                              ? "correct"
-                              : ""
-                          }
-                          ${
-                            isWrongSelected
-                              ? "incorrect"
-                              : ""
-                          }
-                        `}
-                        onClick={() => {
-                          if (
-                            !answerSubmitted
-                          ) {
-                            setSelectedAnswer(
-                              optionId
-                            );
-                          }
-                        }}
-                      >
-
-                        <span className="option-letter">
-                          {String.fromCharCode(
-                            65 +
-                              index
-                          )}
-                        </span>
-
-                        <span>
-                          {option}
-                        </span>
-
-                        {answerSubmitted &&
-                          isCorrectOption && (
-                            <span className="answer-icon">
-                              ✓
-                            </span>
-                          )}
-
-                      </button>
-                    );
-                  }
-                )}
-
-              </div>
-
-              {!answerSubmitted && (
-                <button
-                  type="button"
-                  className="submit-answer"
-                  onClick={
-                    handleSubmit
-                  }
-                  disabled={
-                    !selectedAnswer
-                  }
-                >
-                  Submit Answer →
-                </button>
-              )}
-
-              {decodeComplete && (
-                renderFinalScore(
-                  "Decode the DFA Complete",
-                  decodeScore,
-                  decodeQuestionsPool.length,
-                  handleRestartDecodeChallenge
-                )
-              )}
-
-              {answerSubmitted && !decodeComplete && (
-                <div
-                  className={`answer-result ${
-                    isCorrect
-                      ? "result-correct"
-                      : "result-wrong"
-                  }`}
-                >
-
-                  <div className="result-title">
-                    {isCorrect
-                      ? "✓ Correct Answer!"
-                      : "✗ Not Quite"}
-                  </div>
-
-                  <p>
-                    {
-                      currentQuestion.explanation
-                    }
-                  </p>
-
-                  <div className="example-box">
-
-                    <strong>
-                      Examples:
-                    </strong>
-
-                    {currentQuestion.examples.map(
-                      ([
-                        example,
-                        accepted,
-                      ]) => (
-                        <span
-                          key={
-                            example
-                          }
                         >
-                          {example ||
-                            "ε"}{" "}
-                          {accepted
-                            ? "✓"
-                            : "✗"}
-                        </span>
-                      )
-                    )}
 
-                  </div>
+                          <span>
+                            {
+                              state.id
+                            }
 
-                  <div className="result-actions">
+                            {state.start && (
+                              <small>
+                                {" "}
+                                START
+                              </small>
+                            )}
 
-                    <button
-                      type="button"
-                      className="try-again-button"
-                      onClick={
-                        handleResetQuestion
-                      }
-                    >
-                      Try Again
-                    </button>
+                            {state.final && (
+                              <small>
+                                {" "}
+                                FINAL
+                              </small>
+                            )}
+                          </span>
 
-                    <button
-                      type="button"
-                      className="try-again-button"
-                      onClick={
-                        handleNextQuestion
-                      }
-                    >
-                      Next Question →
-                    </button>
+                          <span>
+                            {zeroTransition
+                              ? zeroTransition.to
+                              : "—"}
+                          </span>
 
-                  </div>
+                          <span>
+                            {oneTransition
+                              ? oneTransition.to
+                              : "—"}
+                          </span>
+
+                        </div>
+                      );
+                    }
+                  )}
 
                 </div>
-              )}
+
+              </div>
+
+              {/* QUESTION PANEL */}
+
+              <div className="question-panel">
+
+                <div className="question-number">
+                  QUESTION{" "}
+                  {String(
+                    currentQuestion.id
+                  ).padStart(
+                    2,
+                    "0"
+                  )}
+                </div>
+
+                <h3>
+                  Which language is
+                  accepted by this DFA?
+                </h3>
+
+                <p className="question-help">
+                  {
+                    currentQuestion.hint
+                  }
+                </p>
+
+                <div className="answer-options">
+
+                  {currentQuestion.options.map(
+                    (
+                      option,
+                      index
+                    ) => {
+
+                      const optionId =
+                        String(
+                          index
+                        );
+
+                      const isSelected =
+                        selectedAnswer ===
+                        optionId;
+
+                      const isCorrectOption =
+                        index ===
+                        currentQuestion.correct;
+
+                      const isWrongSelected =
+                        answerSubmitted &&
+                        isSelected &&
+                        !isCorrectOption;
+
+                      return (
+                        <button
+                          key={
+                            option
+                          }
+                          type="button"
+                          className={`answer-option
+                          ${isSelected
+                              ? "selected"
+                              : ""
+                            }
+                          ${answerSubmitted &&
+                              isCorrectOption
+                              ? "correct"
+                              : ""
+                            }
+                          ${isWrongSelected
+                              ? "incorrect"
+                              : ""
+                            }
+                        `}
+                          onClick={() => {
+                            if (
+                              !answerSubmitted
+                            ) {
+                              setSelectedAnswer(
+                                optionId
+                              );
+                            }
+                          }}
+                        >
+
+                          <span className="option-letter">
+                            {String.fromCharCode(
+                              65 +
+                              index
+                            )}
+                          </span>
+
+                          <span>
+                            {option}
+                          </span>
+
+                          {answerSubmitted &&
+                            isCorrectOption && (
+                              <span className="answer-icon">
+                                ✓
+                              </span>
+                            )}
+
+                        </button>
+                      );
+                    }
+                  )}
+
+                </div>
+
+                {!answerSubmitted && (
+                  <button
+                    type="button"
+                    className="submit-answer"
+                    onClick={
+                      handleSubmit
+                    }
+                    disabled={
+                      !selectedAnswer
+                    }
+                  >
+                    Submit Answer →
+                  </button>
+                )}
+
+                {decodeComplete && (
+                  renderFinalScore(
+                    "Decode the DFA Complete",
+                    decodeScore,
+                    decodeQuestionsPool.length,
+                    handleRestartDecodeChallenge
+                  )
+                )}
+
+                {answerSubmitted && !decodeComplete && (
+                  <div
+                    className={`answer-result ${isCorrect
+                        ? "result-correct"
+                        : "result-wrong"
+                      }`}
+                  >
+
+                    <div className="result-title">
+                      {isCorrect
+                        ? "✓ Correct Answer!"
+                        : "✗ Not Quite"}
+                    </div>
+
+                    <p>
+                      {
+                        currentQuestion.explanation
+                      }
+                    </p>
+
+                    <div className="example-box">
+
+                      <strong>
+                        Examples:
+                      </strong>
+
+                      {currentQuestion.examples.map(
+                        ([
+                          example,
+                          accepted,
+                        ]) => (
+                          <span
+                            key={
+                              example
+                            }
+                          >
+                            {example ||
+                              "ε"}{" "}
+                            {accepted
+                              ? "✓"
+                              : "✗"}
+                          </span>
+                        )
+                      )}
+
+                    </div>
+
+                    <div className="result-actions">
+
+                      <button
+                        type="button"
+                        className="try-again-button"
+                        onClick={
+                          handleResetQuestion
+                        }
+                      >
+                        Try Again
+                      </button>
+
+                      <button
+                        type="button"
+                        className="try-again-button"
+                        onClick={
+                          handleNextQuestion
+                        }
+                      >
+                        Next Question →
+                      </button>
+
+                    </div>
+
+                  </div>
+                )}
+
+              </div>
 
             </div>
-
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
       {/* =================================================
           FIX DFA
@@ -3542,500 +3546,496 @@ function Challenge() {
 
       {selectedMode ===
         "fix" && (
-        <section className="challenge-workspace">
+          <section className="challenge-workspace">
 
-          <div className="workspace-header">
+            <div className="workspace-header">
 
-            <div>
+              <div>
 
-              <p className="preview-label">
-                CHALLENGE 02 • FIX THE
-                DFA
-              </p>
-
-              <h2>
-                Find and fix the
-                incorrect transition
-              </h2>
-
-              <p>
-                One transition in this
-                DFA is incorrect. Identify
-                the wrong transition and
-                select the correct
-                destination state.
-              </p>
-
-            </div>
-
-            <button
-              type="button"
-              className="back-button"
-              onClick={handleBack}
-            >
-              ← Back
-            </button>
-
-          </div>
-
-          <div className="decode-progress">
-
-            <span>
-              Question{" "}
-              {fixQuestionIndex +
-                1}{" "}
-              of{" "}
-              {
-                fixQuestionsPool.length
-              }
-            </span>
-
-            <button
-              type="button"
-              className="submit-answer"
-              onClick={
-                handleRandomFixQuestion
-              }
-            >
-              🔀 Random Question
-            </button>
-
-          </div>
-
-          <div className="decode-layout">
-
-            {/* DFA */}
-
-            <div className="dfa-panel">
-
-              <div className="panel-heading">
-
-                <span>
+                <p className="preview-label">
+                  CHALLENGE 02 • FIX THE
                   DFA
-                </span>
+                </p>
 
-                <span className="alphabet-label">
-                  Alphabet:{" "}
-                  {
-                    currentFixQuestion.alphabet
-                  }
-                </span>
+                <h2>
+                  Find and fix the
+                  incorrect transition
+                </h2>
 
-              </div>
-
-              <DFADiagram
-                question={
-                  currentFixQuestion
-                }
-              />
-
-              <div className="transition-table">
-
-                <div className="table-title">
-                  Transition Table
-                </div>
-
-                <div className="transition-row header-row">
-
-                  <span>
-                    State
-                  </span>
-
-                  <span>
-                    0
-                  </span>
-
-                  <span>
-                    1
-                  </span>
-
-                </div>
-
-                {currentFixQuestion.states.map(
-                  (state) => {
-
-                    const zeroTransition =
-                      currentFixQuestion.transitions.find(
-                        (
-                          transition
-                        ) =>
-                          transition.from ===
-                            state.id &&
-                          transition.symbol.includes(
-                            "0"
-                          )
-                      );
-
-                    const oneTransition =
-                      currentFixQuestion.transitions.find(
-                        (
-                          transition
-                        ) =>
-                          transition.from ===
-                            state.id &&
-                          transition.symbol.includes(
-                            "1"
-                          )
-                      );
-
-                    return (
-                      <div
-                        className="transition-row"
-                        key={
-                          state.id
-                        }
-                      >
-
-                        <span>
-                          {
-                            state.id
-                          }
-
-                          {state.start && (
-                            <small>
-                              {" "}
-                              START
-                            </small>
-                          )}
-
-                          {state.final && (
-                            <small>
-                              {" "}
-                              FINAL
-                            </small>
-                          )}
-                        </span>
-
-                        <span>
-                          {zeroTransition
-                            ? zeroTransition.to
-                            : "—"}
-                        </span>
-
-                        <span>
-                          {oneTransition
-                            ? oneTransition.to
-                            : "—"}
-                        </span>
-
-                      </div>
-                    );
-                  }
-                )}
-
-              </div>
-
-              <div
-                style={{
-                  marginTop:
-                    "18px",
-                  padding:
-                    "14px 16px",
-                  borderRadius:
-                    "12px",
-                  background:
-                    "#fff7ed",
-                  border:
-                    "1px solid #fed7aa",
-                  color:
-                    "#9a3412",
-                }}
-              >
-
-                <strong>
-                  ⚠ Incorrect
-                  Transition
-                </strong>
-
-                <p
-                  style={{
-                    marginTop:
-                      "6px",
-                    fontSize:
-                      "13px",
-                  }}
-                >
-                  {
-                    currentFixQuestion.wrongTransition
-                  }
+                <p>
+                  One transition in this
+                  DFA is incorrect. Identify
+                  the wrong transition and
+                  select the correct
+                  destination state.
                 </p>
 
               </div>
+
+              <button
+                type="button"
+                className="back-button"
+                onClick={handleBack}
+              >
+                ← Back
+              </button>
 
             </div>
 
-            {/* QUESTION */}
+            <div className="decode-progress">
 
-            <div className="question-panel">
-
-              <div className="question-number">
-                QUESTION{" "}
-                {String(
-                  currentFixQuestion.id
-                ).padStart(
-                  2,
-                  "0"
-                )}
-              </div>
-
-              <h3>
+              <span>
+                Question{" "}
+                {fixQuestionIndex +
+                  1}{" "}
+                of{" "}
                 {
-                  currentFixQuestion.title
+                  fixQuestionsPool.length
                 }
-              </h3>
+              </span>
 
-              <p className="question-help">
-                {
-                  currentFixQuestion.description
+              <button
+                type="button"
+                className="submit-answer"
+                onClick={
+                  handleRandomFixQuestion
                 }
-              </p>
-
-              <div
-                style={{
-                  marginBottom:
-                    "18px",
-                  padding:
-                    "14px",
-                  borderRadius:
-                    "12px",
-                  background:
-                    "#eff6ff",
-                  border:
-                    "1px solid #dbeafe",
-                  color:
-                    "#1e3a8a",
-                  fontSize:
-                    "13px",
-                  lineHeight:
-                    "1.6",
-                }}
               >
+                🔀 Random Question
+              </button>
 
-                <strong>
-                  Your Task
-                </strong>
+            </div>
 
-                <p
-                  style={{
-                    marginTop:
-                      "5px",
-                  }}
-                >
-                  The transition{" "}
-                  <strong>
+            <div className="decode-layout">
+
+              {/* DFA */}
+
+              <div className="dfa-panel">
+
+                <div className="panel-heading">
+
+                  <span>
+                    DFA
+                  </span>
+
+                  <span className="alphabet-label">
+                    Alphabet:{" "}
                     {
-                      currentFixQuestion.wrongTransition
+                      currentFixQuestion.alphabet
                     }
-                  </strong>{" "}
-                  is incorrect.
-                  Where should
-                  it go instead?
-                </p>
+                  </span>
 
-              </div>
+                </div>
 
-              <div className="answer-options">
-
-                {currentFixQuestion.options.map(
-                  (option) => {
-
-                    const isSelected =
-                      selectedFixAnswer ===
-                      option;
-
-                    const isCorrectOption =
-                      option ===
-                      currentFixQuestion.transitions.find(
-                        (
-                          transition
-                        ) =>
-                          transition.wrong
-                      )?.correctTo;
-
-                    const isWrongSelected =
-                      fixSubmitted &&
-                      isSelected &&
-                      !isCorrectOption;
-
-                    return (
-                      <button
-                        key={
-                          option
-                        }
-                        type="button"
-                        className={`answer-option
-                          ${
-                            isSelected
-                              ? "selected"
-                              : ""
-                          }
-                          ${
-                            fixSubmitted &&
-                            isCorrectOption
-                              ? "correct"
-                              : ""
-                          }
-                          ${
-                            isWrongSelected
-                              ? "incorrect"
-                              : ""
-                          }
-                        `}
-                        onClick={() => {
-                          if (
-                            !fixSubmitted
-                          ) {
-                            setSelectedFixAnswer(
-                              option
-                            );
-                          }
-                        }}
-                      >
-
-                        <span className="option-letter">
-                          {option}
-                        </span>
-
-                        <span>
-                          Make the
-                          transition go
-                          to{" "}
-                          <strong>
-                            {option}
-                          </strong>
-                        </span>
-
-                        {fixSubmitted &&
-                          isCorrectOption && (
-                            <span className="answer-icon">
-                              ✓
-                            </span>
-                          )}
-
-                      </button>
-                    );
+                <DFADiagram
+                  question={
+                    currentFixQuestion
                   }
-                )}
+                />
 
-              </div>
+                <div className="transition-table">
 
-              {!fixSubmitted && (
-                <button
-                  type="button"
-                  className="submit-answer"
-                  onClick={
-                    handleFixSubmit
-                  }
-                  disabled={
-                    !selectedFixAnswer
-                  }
-                >
-                  Submit Fix →
-                </button>
-              )}
-
-              {fixComplete && (
-                renderFinalScore(
-                  "Fix the DFA Complete",
-                  fixScore,
-                  fixQuestionsPool.length,
-                  handleRestartFixChallenge
-                )
-              )}
-
-              {fixSubmitted && !fixComplete && (
-                <div
-                  className={`answer-result ${
-                    isFixCorrect
-                      ? "result-correct"
-                      : "result-wrong"
-                  }`}
-                >
-
-                  <div className="result-title">
-                    {isFixCorrect
-                      ? "✓ DFA Fixed Correctly!"
-                      : "✗ Incorrect Fix"}
+                  <div className="table-title">
+                    Transition Table
                   </div>
 
-                  <p>
-                    {
-                      currentFixQuestion.explanation
-                    }
-                  </p>
-
-                  <div className="example-box">
-
-                    <strong>
-                      Correct
-                      Transition:
-                    </strong>
+                  <div className="transition-row header-row">
 
                     <span>
-                      {
-                        currentFixQuestion.correctTransition
-                      }
+                      State
+                    </span>
+
+                    <span>
+                      0
+                    </span>
+
+                    <span>
+                      1
                     </span>
 
                   </div>
 
-                  <div className="example-box">
+                  {currentFixQuestion.states.map(
+                    (state) => {
 
-                    <strong>
-                      Test Examples:
-                    </strong>
+                      const zeroTransition =
+                        currentFixQuestion.transitions.find(
+                          (
+                            transition
+                          ) =>
+                            transition.from ===
+                            state.id &&
+                            transition.symbol.includes(
+                              "0"
+                            )
+                        );
 
-                    {currentFixQuestion.examples.map(
-                      ([
-                        example,
-                        accepted,
-                      ]) => (
-                        <span
-                          key={`${example}-${accepted}`}
+                      const oneTransition =
+                        currentFixQuestion.transitions.find(
+                          (
+                            transition
+                          ) =>
+                            transition.from ===
+                            state.id &&
+                            transition.symbol.includes(
+                              "1"
+                            )
+                        );
+
+                      return (
+                        <div
+                          className="transition-row"
+                          key={
+                            state.id
+                          }
                         >
-                          {example ||
-                            "ε"}{" "}
-                          {accepted
-                            ? "✓"
-                            : "✗"}
-                        </span>
-                      )
-                    )}
 
-                  </div>
+                          <span>
+                            {
+                              state.id
+                            }
 
-                  <div className="result-actions">
+                            {state.start && (
+                              <small>
+                                {" "}
+                                START
+                              </small>
+                            )}
 
-                    <button
-                      type="button"
-                      className="try-again-button"
-                      onClick={
-                        handleFixTryAgain
-                      }
-                    >
-                      Try Again
-                    </button>
+                            {state.final && (
+                              <small>
+                                {" "}
+                                FINAL
+                              </small>
+                            )}
+                          </span>
 
-                    <button
-                      type="button"
-                      className="try-again-button"
-                      onClick={
-                        handleNextFixQuestion
-                      }
-                    >
-                      Next Question →
-                    </button>
+                          <span>
+                            {zeroTransition
+                              ? zeroTransition.to
+                              : "—"}
+                          </span>
 
-                  </div>
+                          <span>
+                            {oneTransition
+                              ? oneTransition.to
+                              : "—"}
+                          </span>
+
+                        </div>
+                      );
+                    }
+                  )}
 
                 </div>
-              )}
+
+                <div
+                  style={{
+                    marginTop:
+                      "18px",
+                    padding:
+                      "14px 16px",
+                    borderRadius:
+                      "12px",
+                    background:
+                      "#fff7ed",
+                    border:
+                      "1px solid #fed7aa",
+                    color:
+                      "#9a3412",
+                  }}
+                >
+
+                  <strong>
+                    ⚠ Incorrect
+                    Transition
+                  </strong>
+
+                  <p
+                    style={{
+                      marginTop:
+                        "6px",
+                      fontSize:
+                        "13px",
+                    }}
+                  >
+                    {
+                      currentFixQuestion.wrongTransition
+                    }
+                  </p>
+
+                </div>
+
+              </div>
+
+              {/* QUESTION */}
+
+              <div className="question-panel">
+
+                <div className="question-number">
+                  QUESTION{" "}
+                  {String(
+                    currentFixQuestion.id
+                  ).padStart(
+                    2,
+                    "0"
+                  )}
+                </div>
+
+                <h3>
+                  {
+                    currentFixQuestion.title
+                  }
+                </h3>
+
+                <p className="question-help">
+                  {
+                    currentFixQuestion.description
+                  }
+                </p>
+
+                <div
+                  style={{
+                    marginBottom:
+                      "18px",
+                    padding:
+                      "14px",
+                    borderRadius:
+                      "12px",
+                    background:
+                      "#eff6ff",
+                    border:
+                      "1px solid #dbeafe",
+                    color:
+                      "#1e3a8a",
+                    fontSize:
+                      "13px",
+                    lineHeight:
+                      "1.6",
+                  }}
+                >
+
+                  <strong>
+                    Your Task
+                  </strong>
+
+                  <p
+                    style={{
+                      marginTop:
+                        "5px",
+                    }}
+                  >
+                    The transition{" "}
+                    <strong>
+                      {
+                        currentFixQuestion.wrongTransition
+                      }
+                    </strong>{" "}
+                    is incorrect.
+                    Where should
+                    it go instead?
+                  </p>
+
+                </div>
+
+                <div className="answer-options">
+
+                  {currentFixQuestion.options.map(
+                    (option) => {
+
+                      const isSelected =
+                        selectedFixAnswer ===
+                        option;
+
+                      const isCorrectOption =
+                        option ===
+                        currentFixQuestion.transitions.find(
+                          (
+                            transition
+                          ) =>
+                            transition.wrong
+                        )?.correctTo;
+
+                      const isWrongSelected =
+                        fixSubmitted &&
+                        isSelected &&
+                        !isCorrectOption;
+
+                      return (
+                        <button
+                          key={
+                            option
+                          }
+                          type="button"
+                          className={`answer-option
+                          ${isSelected
+                              ? "selected"
+                              : ""
+                            }
+                          ${fixSubmitted &&
+                              isCorrectOption
+                              ? "correct"
+                              : ""
+                            }
+                          ${isWrongSelected
+                              ? "incorrect"
+                              : ""
+                            }
+                        `}
+                          onClick={() => {
+                            if (
+                              !fixSubmitted
+                            ) {
+                              setSelectedFixAnswer(
+                                option
+                              );
+                            }
+                          }}
+                        >
+
+                          <span className="option-letter">
+                            {option}
+                          </span>
+
+                          <span>
+                            Make the
+                            transition go
+                            to{" "}
+                            <strong>
+                              {option}
+                            </strong>
+                          </span>
+
+                          {fixSubmitted &&
+                            isCorrectOption && (
+                              <span className="answer-icon">
+                                ✓
+                              </span>
+                            )}
+
+                        </button>
+                      );
+                    }
+                  )}
+
+                </div>
+
+                {!fixSubmitted && (
+                  <button
+                    type="button"
+                    className="submit-answer"
+                    onClick={
+                      handleFixSubmit
+                    }
+                    disabled={
+                      !selectedFixAnswer
+                    }
+                  >
+                    Submit Fix →
+                  </button>
+                )}
+
+                {fixComplete && (
+                  renderFinalScore(
+                    "Fix the DFA Complete",
+                    fixScore,
+                    fixQuestionsPool.length,
+                    handleRestartFixChallenge
+                  )
+                )}
+
+                {fixSubmitted && !fixComplete && (
+                  <div
+                    className={`answer-result ${isFixCorrect
+                        ? "result-correct"
+                        : "result-wrong"
+                      }`}
+                  >
+
+                    <div className="result-title">
+                      {isFixCorrect
+                        ? "✓ DFA Fixed Correctly!"
+                        : "✗ Incorrect Fix"}
+                    </div>
+
+                    <p>
+                      {
+                        currentFixQuestion.explanation
+                      }
+                    </p>
+
+                    <div className="example-box">
+
+                      <strong>
+                        Correct
+                        Transition:
+                      </strong>
+
+                      <span>
+                        {
+                          currentFixQuestion.correctTransition
+                        }
+                      </span>
+
+                    </div>
+
+                    <div className="example-box">
+
+                      <strong>
+                        Test Examples:
+                      </strong>
+
+                      {currentFixQuestion.examples.map(
+                        ([
+                          example,
+                          accepted,
+                        ]) => (
+                          <span
+                            key={`${example}-${accepted}`}
+                          >
+                            {example ||
+                              "ε"}{" "}
+                            {accepted
+                              ? "✓"
+                              : "✗"}
+                          </span>
+                        )
+                      )}
+
+                    </div>
+
+                    <div className="result-actions">
+
+                      <button
+                        type="button"
+                        className="try-again-button"
+                        onClick={
+                          handleFixTryAgain
+                        }
+                      >
+                        Try Again
+                      </button>
+
+                      <button
+                        type="button"
+                        className="try-again-button"
+                        onClick={
+                          handleNextFixQuestion
+                        }
+                      >
+                        Next Question →
+                      </button>
+
+                    </div>
+
+                  </div>
+                )}
+
+              </div>
 
             </div>
-
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
       {/* =================================================
           BUILD THE ANSWER
@@ -4043,682 +4043,682 @@ function Challenge() {
 
       {selectedMode ===
         "build" && (
-        <section className="challenge-workspace">
+          <section className="challenge-workspace">
 
-          {/* HEADER */}
+            {/* HEADER */}
 
-          <div className="workspace-header">
+            <div className="workspace-header">
 
-            <div>
+              <div>
 
-              <p className="preview-label">
-                CHALLENGE 03 • BUILD THE
-                ANSWER
-              </p>
+                <p className="preview-label">
+                  CHALLENGE 03 • BUILD THE
+                  ANSWER
+                </p>
 
-              <h2>
-                Build the correct DFA
-              </h2>
+                <h2>
+                  Build the correct DFA
+                </h2>
 
-              <p>
-                Read the requirement,
-                choose the states, and
-                construct the correct
-                transition table.
-              </p>
+                <p>
+                  Read the requirement,
+                  choose the states, and
+                  construct the correct
+                  transition table.
+                </p>
+
+              </div>
+
+              <button
+                type="button"
+                className="back-button"
+                onClick={handleBack}
+              >
+                ← Back
+              </button>
 
             </div>
 
-            <button
-              type="button"
-              className="back-button"
-              onClick={handleBack}
+            {/* PROGRESS */}
+
+            <div className="decode-progress">
+
+              <span>
+                Question{" "}
+                {buildQuestionIndex +
+                  1}{" "}
+                of{" "}
+                {
+                  buildQuestionsPool.length
+                }
+              </span>
+
+              <button
+                type="button"
+                className="submit-answer"
+                onClick={
+                  handleRandomBuildQuestion
+                }
+              >
+                🔀 Random Question
+              </button>
+
+            </div>
+
+            {/* BUILD AREA */}
+
+            <div
+              className="decode-layout"
+              style={{
+                alignItems:
+                  "flex-start",
+              }}
             >
-              ← Back
-            </button>
 
-          </div>
-
-          {/* PROGRESS */}
-
-          <div className="decode-progress">
-
-            <span>
-              Question{" "}
-              {buildQuestionIndex +
-                1}{" "}
-              of{" "}
-              {
-                buildQuestionsPool.length
-              }
-            </span>
-
-            <button
-              type="button"
-              className="submit-answer"
-              onClick={
-                handleRandomBuildQuestion
-              }
-            >
-              🔀 Random Question
-            </button>
-
-          </div>
-
-          {/* BUILD AREA */}
-
-          <div
-            className="decode-layout"
-            style={{
-              alignItems:
-                "flex-start",
-            }}
-          >
-
-            {/* =================================================
+              {/* =================================================
                 LEFT REQUIREMENT PANEL
             ================================================= */}
 
-            <div className="dfa-panel">
+              <div className="dfa-panel">
 
-              <div className="panel-heading">
+                <div className="panel-heading">
 
-                <span>
-                  DFA REQUIREMENT
-                </span>
+                  <span>
+                    DFA REQUIREMENT
+                  </span>
 
-                <span className="alphabet-label">
-                  Alphabet:{" "}
-                  {
-                    currentBuildQuestion.alphabet
-                  }
-                </span>
+                  <span className="alphabet-label">
+                    Alphabet:{" "}
+                    {
+                      currentBuildQuestion.alphabet
+                    }
+                  </span>
 
-              </div>
-
-              <div
-                style={{
-                  padding:
-                    "22px",
-                  background:
-                    "linear-gradient(135deg, #eff6ff, #f8fafc)",
-                  border:
-                    "1px solid #dbeafe",
-                  borderRadius:
-                    "16px",
-                  marginBottom:
-                    "20px",
-                }}
-              >
+                </div>
 
                 <div
                   style={{
-                    fontSize:
-                      "12px",
-                    fontWeight:
-                      "800",
-                    letterSpacing:
-                      "1.5px",
-                    color:
-                      "#2563eb",
-                    marginBottom:
-                      "10px",
-                  }}
-                >
-                  YOUR TASK
-                </div>
-
-                <h3
-                  style={{
-                    margin:
-                      "0 0 10px",
-                    color:
-                      "#0f172a",
-                    fontSize:
+                    padding:
                       "22px",
+                    background:
+                      "linear-gradient(135deg, #eff6ff, #f8fafc)",
+                    border:
+                      "1px solid #dbeafe",
+                    borderRadius:
+                      "16px",
+                    marginBottom:
+                      "20px",
                   }}
                 >
-                  {
-                    currentBuildQuestion.title
-                  }
-                </h3>
 
-                <p
-                  style={{
-                    margin: 0,
-                    color:
-                      "#475569",
-                    lineHeight:
-                      "1.7",
-                    fontSize:
-                      "14px",
-                  }}
-                >
-                  {
-                    currentBuildQuestion.requirement
-                  }
-                </p>
+                  <div
+                    style={{
+                      fontSize:
+                        "12px",
+                      fontWeight:
+                        "800",
+                      letterSpacing:
+                        "1.5px",
+                      color:
+                        "#2563eb",
+                      marginBottom:
+                        "10px",
+                    }}
+                  >
+                    YOUR TASK
+                  </div>
 
-              </div>
+                  <h3
+                    style={{
+                      margin:
+                        "0 0 10px",
+                      color:
+                        "#0f172a",
+                      fontSize:
+                        "22px",
+                    }}
+                  >
+                    {
+                      currentBuildQuestion.title
+                    }
+                  </h3>
 
-              {/* PREVIEW */}
+                  <p
+                    style={{
+                      margin: 0,
+                      color:
+                        "#475569",
+                      lineHeight:
+                        "1.7",
+                      fontSize:
+                        "14px",
+                    }}
+                  >
+                    {
+                      currentBuildQuestion.requirement
+                    }
+                  </p>
 
-              <div className="transition-table">
-
-                <div className="table-title">
-                  Your DFA Preview
                 </div>
 
-                <div className="transition-row header-row">
+                {/* PREVIEW */}
 
-                  <span>
-                    State
-                  </span>
+                <div className="transition-table">
 
-                  {currentBuildQuestion.alphabetSymbols.map(
-                    (symbol) => (
-                      <span
+                  <div className="table-title">
+                    Your DFA Preview
+                  </div>
+
+                  <div className="transition-row header-row">
+
+                    <span>
+                      State
+                    </span>
+
+                    {currentBuildQuestion.alphabetSymbols.map(
+                      (symbol) => (
+                        <span
+                          key={
+                            symbol
+                          }
+                        >
+                          {symbol}
+                        </span>
+                      )
+                    )}
+
+                  </div>
+
+                  {currentBuildQuestion.states.map(
+                    (state) => (
+                      <div
+                        className="transition-row"
                         key={
-                          symbol
+                          state
                         }
                       >
-                        {symbol}
-                      </span>
+
+                        <span>
+
+                          {state}
+
+                          {buildStartState ===
+                            state && (
+                              <small>
+                                {" "}
+                                START
+                              </small>
+                            )}
+
+                          {buildFinalState ===
+                            state && (
+                              <small>
+                                {" "}
+                                FINAL
+                              </small>
+                            )}
+
+                        </span>
+
+                        {currentBuildQuestion.alphabetSymbols.map(
+                          (symbol) => (
+                            <span
+                              key={`${state}_${symbol}`}
+                            >
+                              {
+                                buildTransitions[
+                                `${state}_${symbol}`
+                                ] ||
+                                "—"
+                              }
+                            </span>
+                          )
+                        )}
+
+                      </div>
                     )
                   )}
 
                 </div>
 
-                {currentBuildQuestion.states.map(
-                  (state) => (
-                    <div
-                      className="transition-row"
-                      key={
-                        state
-                      }
-                    >
+                {/* TIP */}
 
-                      <span>
-
-                        {state}
-
-                        {buildStartState ===
-                          state && (
-                          <small>
-                            {" "}
-                            START
-                          </small>
-                        )}
-
-                        {buildFinalState ===
-                          state && (
-                          <small>
-                            {" "}
-                            FINAL
-                          </small>
-                        )}
-
-                      </span>
-
-                      {currentBuildQuestion.alphabetSymbols.map(
-                        (symbol) => (
-                          <span
-                            key={`${state}_${symbol}`}
-                          >
-                            {
-                              buildTransitions[
-                                `${state}_${symbol}`
-                              ] ||
-                              "—"
-                            }
-                          </span>
-                        )
-                      )}
-
-                    </div>
-                  )
-                )}
-
-              </div>
-
-              {/* TIP */}
-
-              <div
-                style={{
-                  marginTop:
-                    "18px",
-                  padding:
-                    "14px 16px",
-                  borderRadius:
-                    "12px",
-                  background:
-                    "#f8fafc",
-                  border:
-                    "1px solid #e2e8f0",
-                  color:
-                    "#475569",
-                  fontSize:
-                    "13px",
-                  lineHeight:
-                    "1.6",
-                }}
-              >
-
-                <strong>
-                  💡 Tip
-                </strong>
-
-                <p
+                <div
                   style={{
                     marginTop:
-                      "5px",
+                      "18px",
+                    padding:
+                      "14px 16px",
+                    borderRadius:
+                      "12px",
+                    background:
+                      "#f8fafc",
+                    border:
+                      "1px solid #e2e8f0",
+                    color:
+                      "#475569",
+                    fontSize:
+                      "13px",
+                    lineHeight:
+                      "1.6",
                   }}
                 >
-                  Think about what each
-                  state should remember.
-                  The final state must
-                  represent the condition
-                  described in the question.
-                </p>
+
+                  <strong>
+                    💡 Tip
+                  </strong>
+
+                  <p
+                    style={{
+                      marginTop:
+                        "5px",
+                    }}
+                  >
+                    Think about what each
+                    state should remember.
+                    The final state must
+                    represent the condition
+                    described in the question.
+                  </p>
+
+                </div>
 
               </div>
 
-            </div>
-
-            {/* =================================================
+              {/* =================================================
                 RIGHT BUILD PANEL
             ================================================= */}
 
-            <div className="question-panel">
+              <div className="question-panel">
 
-              <div className="question-number">
-                QUESTION{" "}
-                {String(
-                  currentBuildQuestion.id
-                ).padStart(
-                  2,
-                  "0"
-                )}
-              </div>
-
-              <h3>
-                Construct your DFA
-              </h3>
-
-              <p className="question-help">
-                Select the start state,
-                final state, and
-                destination state for
-                every transition.
-              </p>
-
-              {/* START STATE */}
-
-              <div
-                style={{
-                  marginBottom:
-                    "18px",
-                }}
-              >
-
-                <label
-                  htmlFor="build-start-state"
-                  style={{
-                    display:
-                      "block",
-                    marginBottom:
-                      "8px",
-                    fontSize:
-                      "13px",
-                    fontWeight:
-                      "800",
-                    color:
-                      "#334155",
-                  }}
-                >
-                  1. Select Start State
-                </label>
-
-                <select
-                  id="build-start-state"
-                  value={
-                    buildStartState
-                  }
-                  onChange={(event) =>
-                    handleBuildStartChange(
-                      event.target.value
-                    )
-                  }
-                  style={{
-                    width:
-                      "100%",
-                    padding:
-                      "13px 14px",
-                    border:
-                      "1px solid #cbd5e1",
-                    borderRadius:
-                      "10px",
-                    background:
-                      "white",
-                    color:
-                      "#0f172a",
-                    outline:
-                      "none",
-                  }}
-                >
-
-                  <option value="">
-                    Select start state
-                  </option>
-
-                  {currentBuildQuestion.states.map(
-                    (state) => (
-                      <option
-                        key={
-                          state
-                        }
-                        value={
-                          state
-                        }
-                      >
-                        {state}
-                      </option>
-                    )
+                <div className="question-number">
+                  QUESTION{" "}
+                  {String(
+                    currentBuildQuestion.id
+                  ).padStart(
+                    2,
+                    "0"
                   )}
+                </div>
 
-                </select>
+                <h3>
+                  Construct your DFA
+                </h3>
 
-              </div>
+                <p className="question-help">
+                  Select the start state,
+                  final state, and
+                  destination state for
+                  every transition.
+                </p>
 
-              {/* FINAL STATE */}
-
-              <div
-                style={{
-                  marginBottom:
-                    "22px",
-                }}
-              >
-
-                <label
-                  htmlFor="build-final-state"
-                  style={{
-                    display:
-                      "block",
-                    marginBottom:
-                      "8px",
-                    fontSize:
-                      "13px",
-                    fontWeight:
-                      "800",
-                    color:
-                      "#334155",
-                  }}
-                >
-                  2. Select Final State
-                </label>
-
-                <select
-                  id="build-final-state"
-                  value={
-                    buildFinalState
-                  }
-                  onChange={(event) =>
-                    handleBuildFinalChange(
-                      event.target.value
-                    )
-                  }
-                  style={{
-                    width:
-                      "100%",
-                    padding:
-                      "13px 14px",
-                    border:
-                      "1px solid #cbd5e1",
-                    borderRadius:
-                      "10px",
-                    background:
-                      "white",
-                    color:
-                      "#0f172a",
-                    outline:
-                      "none",
-                  }}
-                >
-
-                  <option value="">
-                    Select final state
-                  </option>
-
-                  {currentBuildQuestion.states.map(
-                    (state) => (
-                      <option
-                        key={
-                          state
-                        }
-                        value={
-                          state
-                        }
-                      >
-                        {state}
-                      </option>
-                    )
-                  )}
-
-                </select>
-
-              </div>
-
-              {/* TRANSITIONS */}
-
-              <div
-                style={{
-                  marginBottom:
-                    "22px",
-                }}
-              >
+                {/* START STATE */}
 
                 <div
                   style={{
                     marginBottom:
-                      "12px",
-                    fontSize:
-                      "13px",
-                    fontWeight:
-                      "800",
-                    color:
-                      "#334155",
+                      "18px",
                   }}
                 >
-                  3. Define Transitions
+
+                  <label
+                    htmlFor="build-start-state"
+                    style={{
+                      display:
+                        "block",
+                      marginBottom:
+                        "8px",
+                      fontSize:
+                        "13px",
+                      fontWeight:
+                        "800",
+                      color:
+                        "#334155",
+                    }}
+                  >
+                    1. Select Start State
+                  </label>
+
+                  <select
+                    id="build-start-state"
+                    value={
+                      buildStartState
+                    }
+                    onChange={(event) =>
+                      handleBuildStartChange(
+                        event.target.value
+                      )
+                    }
+                    style={{
+                      width:
+                        "100%",
+                      padding:
+                        "13px 14px",
+                      border:
+                        "1px solid #cbd5e1",
+                      borderRadius:
+                        "10px",
+                      background:
+                        "white",
+                      color:
+                        "#0f172a",
+                      outline:
+                        "none",
+                    }}
+                  >
+
+                    <option value="">
+                      Select start state
+                    </option>
+
+                    {currentBuildQuestion.states.map(
+                      (state) => (
+                        <option
+                          key={
+                            state
+                          }
+                          value={
+                            state
+                          }
+                        >
+                          {state}
+                        </option>
+                      )
+                    )}
+
+                  </select>
+
                 </div>
 
-                {currentBuildQuestion.states.map(
-                  (state) => (
-                    <div
-                      key={
-                        state
-                      }
-                      style={{
-                        marginBottom:
-                          "16px",
-                        padding:
-                          "16px",
-                        border:
-                          "1px solid #e2e8f0",
-                        borderRadius:
-                          "14px",
-                        background:
-                          "#f8fafc",
-                      }}
-                    >
+                {/* FINAL STATE */}
 
+                <div
+                  style={{
+                    marginBottom:
+                      "22px",
+                  }}
+                >
+
+                  <label
+                    htmlFor="build-final-state"
+                    style={{
+                      display:
+                        "block",
+                      marginBottom:
+                        "8px",
+                      fontSize:
+                        "13px",
+                      fontWeight:
+                        "800",
+                      color:
+                        "#334155",
+                    }}
+                  >
+                    2. Select Final State
+                  </label>
+
+                  <select
+                    id="build-final-state"
+                    value={
+                      buildFinalState
+                    }
+                    onChange={(event) =>
+                      handleBuildFinalChange(
+                        event.target.value
+                      )
+                    }
+                    style={{
+                      width:
+                        "100%",
+                      padding:
+                        "13px 14px",
+                      border:
+                        "1px solid #cbd5e1",
+                      borderRadius:
+                        "10px",
+                      background:
+                        "white",
+                      color:
+                        "#0f172a",
+                      outline:
+                        "none",
+                    }}
+                  >
+
+                    <option value="">
+                      Select final state
+                    </option>
+
+                    {currentBuildQuestion.states.map(
+                      (state) => (
+                        <option
+                          key={
+                            state
+                          }
+                          value={
+                            state
+                          }
+                        >
+                          {state}
+                        </option>
+                      )
+                    )}
+
+                  </select>
+
+                </div>
+
+                {/* TRANSITIONS */}
+
+                <div
+                  style={{
+                    marginBottom:
+                      "22px",
+                  }}
+                >
+
+                  <div
+                    style={{
+                      marginBottom:
+                        "12px",
+                      fontSize:
+                        "13px",
+                      fontWeight:
+                        "800",
+                      color:
+                        "#334155",
+                    }}
+                  >
+                    3. Define Transitions
+                  </div>
+
+                  {currentBuildQuestion.states.map(
+                    (state) => (
                       <div
+                        key={
+                          state
+                        }
                         style={{
                           marginBottom:
-                            "12px",
-                          fontWeight:
-                            "800",
-                          color:
-                            "#2563eb",
-                        }}
-                      >
-                        State{" "}
-                        {state}
-                      </div>
-
-                      <div
-                        style={{
-                          display:
-                            "grid",
-                          gridTemplateColumns:
-                            "1fr 1fr",
-                          gap:
-                            "12px",
+                            "16px",
+                          padding:
+                            "16px",
+                          border:
+                            "1px solid #e2e8f0",
+                          borderRadius:
+                            "14px",
+                          background:
+                            "#f8fafc",
                         }}
                       >
 
-                        {currentBuildQuestion.alphabetSymbols.map(
-                          (
-                            symbol
-                          ) => {
+                        <div
+                          style={{
+                            marginBottom:
+                              "12px",
+                            fontWeight:
+                              "800",
+                            color:
+                              "#2563eb",
+                          }}
+                        >
+                          State{" "}
+                          {state}
+                        </div>
 
-                            const transitionKey =
-                              `${state}_${symbol}`;
+                        <div
+                          style={{
+                            display:
+                              "grid",
+                            gridTemplateColumns:
+                              "1fr 1fr",
+                            gap:
+                              "12px",
+                          }}
+                        >
 
-                            return (
-                              <div
-                                key={
-                                  transitionKey
-                                }
-                              >
+                          {currentBuildQuestion.alphabetSymbols.map(
+                            (
+                              symbol
+                            ) => {
 
-                                <label
-                                  htmlFor={
+                              const transitionKey =
+                                `${state}_${symbol}`;
+
+                              return (
+                                <div
+                                  key={
                                     transitionKey
                                   }
-                                  style={{
-                                    display:
-                                      "block",
-                                    marginBottom:
-                                      "6px",
-                                    fontSize:
-                                      "12px",
-                                    fontWeight:
-                                      "700",
-                                    color:
-                                      "#64748b",
-                                  }}
                                 >
-                                  On input{" "}
-                                  <strong>
-                                    {
-                                      symbol
-                                    }
-                                  </strong>
-                                </label>
 
-                                <select
-                                  id={
-                                    transitionKey
-                                  }
-                                  value={
-                                    buildTransitions[
+                                  <label
+                                    htmlFor={
                                       transitionKey
-                                    ] ||
-                                    ""
-                                  }
-                                  onChange={(
-                                    event
-                                  ) =>
-                                    handleBuildTransitionChange(
-                                      state,
-                                      symbol,
+                                    }
+                                    style={{
+                                      display:
+                                        "block",
+                                      marginBottom:
+                                        "6px",
+                                      fontSize:
+                                        "12px",
+                                      fontWeight:
+                                        "700",
+                                      color:
+                                        "#64748b",
+                                    }}
+                                  >
+                                    On input{" "}
+                                    <strong>
+                                      {
+                                        symbol
+                                      }
+                                    </strong>
+                                  </label>
+
+                                  <select
+                                    id={
+                                      transitionKey
+                                    }
+                                    value={
+                                      buildTransitions[
+                                      transitionKey
+                                      ] ||
+                                      ""
+                                    }
+                                    onChange={(
                                       event
-                                        .target
-                                        .value
-                                    )
-                                  }
-                                  style={{
-                                    width:
-                                      "100%",
-                                    padding:
-                                      "11px 10px",
-                                    border:
-                                      "1px solid #cbd5e1",
-                                    borderRadius:
-                                      "9px",
-                                    background:
-                                      "white",
-                                    color:
-                                      "#0f172a",
-                                    outline:
-                                      "none",
-                                  }}
-                                >
+                                    ) =>
+                                      handleBuildTransitionChange(
+                                        state,
+                                        symbol,
+                                        event
+                                          .target
+                                          .value
+                                      )
+                                    }
+                                    style={{
+                                      width:
+                                        "100%",
+                                      padding:
+                                        "11px 10px",
+                                      border:
+                                        "1px solid #cbd5e1",
+                                      borderRadius:
+                                        "9px",
+                                      background:
+                                        "white",
+                                      color:
+                                        "#0f172a",
+                                      outline:
+                                        "none",
+                                    }}
+                                  >
 
-                                  <option value="">
-                                    Select
-                                  </option>
+                                    <option value="">
+                                      Select
+                                    </option>
 
-                                  {currentBuildQuestion.states.map(
-                                    (
-                                      destination
-                                    ) => (
-                                      <option
-                                        key={
-                                          destination
-                                        }
-                                        value={
-                                          destination
-                                        }
-                                      >
-                                        →
-                                        {" "}
-                                        {
-                                          destination
-                                        }
-                                      </option>
-                                    )
-                                  )}
+                                    {currentBuildQuestion.states.map(
+                                      (
+                                        destination
+                                      ) => (
+                                        <option
+                                          key={
+                                            destination
+                                          }
+                                          value={
+                                            destination
+                                          }
+                                        >
+                                          →
+                                          {" "}
+                                          {
+                                            destination
+                                          }
+                                        </option>
+                                      )
+                                    )}
 
-                                </select>
+                                  </select>
 
-                              </div>
-                            );
-                          }
-                        )}
+                                </div>
+                              );
+                            }
+                          )}
+
+                        </div>
 
                       </div>
+                    )
+                  )}
 
-                    </div>
-                  )
+                </div>
+
+                {/* CHECK */}
+
+                {!buildResult && (
+                  <button
+                    type="button"
+                    className="submit-answer"
+                    onClick={
+                      handleCheckBuild
+                    }
+                  >
+                    ✓ Check DFA
+                  </button>
                 )}
+
+                {/* RESULT */}
+
+                {renderBuildResult()}
 
               </div>
 
-              {/* CHECK */}
-
-              {!buildResult && (
-                <button
-                  type="button"
-                  className="submit-answer"
-                  onClick={
-                    handleCheckBuild
-                  }
-                >
-                  ✓ Check DFA
-                </button>
-              )}
-
-              {/* RESULT */}
-
-              {renderBuildResult()}
-
             </div>
-
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
     </main>
   );
