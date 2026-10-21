@@ -1,19 +1,30 @@
-
 require("dotenv").config();
 
 const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
-// CORS configuration
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://YOUR-SITE.netlify.app"
-  ]
-}));
+// Allowed frontend websites
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://automata-verse.netlify.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Origin not allowed by CORS"));
+    },
+  })
+);
 
 app.use(express.json());
 
@@ -25,49 +36,50 @@ const db = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: {
-    minVersion: "TLSv1.2"
+    minVersion: "TLSv1.2",
   },
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 });
 
-// Check backend
+// Backend status
 app.get("/", (req, res) => {
   res.json({
-    message: "AutomataVerse backend is running!"
+    message: "AutomataVerse backend is running!",
   });
 });
 
-// Check database connection
+// Database health check
 app.get("/api/health", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT 1 AS connected");
 
     res.json({
       message: "Database connected successfully",
-      database: rows[0].connected === 1 ? "Connected" : "Disconnected"
+      database: rows[0].connected === 1 ? "Connected" : "Disconnected",
     });
   } catch (error) {
     console.error("Database error:", error.message);
 
     res.status(500).json({
-      error: "Database connection failed"
+      error: "Database connection failed",
     });
   }
 });
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
 // Register a new user
 app.post("/api/auth/register", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body || {};
 
-    if (!name || !email || !password) {
+    if (
+      typeof name !== "string" ||
+      typeof email !== "string" ||
+      typeof password !== "string"
+    ) {
       return res.status(400).json({
-        error: "Name, email and password are required"
+        error: "Name, email and password are required",
       });
     }
 
@@ -76,7 +88,7 @@ app.post("/api/auth/register", async (req, res) => {
 
     if (!cleanName || !cleanEmail || password.length < 8) {
       return res.status(400).json({
-        error: "Enter valid details and a password of at least 8 characters"
+        error: "Enter valid details and a password of at least 8 characters",
       });
     }
 
@@ -87,7 +99,7 @@ app.post("/api/auth/register", async (req, res) => {
 
     if (existingUsers.length > 0) {
       return res.status(409).json({
-        error: "An account with this email already exists"
+        error: "An account with this email already exists",
       });
     }
 
@@ -103,19 +115,20 @@ app.post("/api/auth/register", async (req, res) => {
       user: {
         id: result.insertId,
         name: cleanName,
-        email: cleanEmail
-      }
+        email: cleanEmail,
+      },
     });
   } catch (error) {
     if (error.code === "ER_DUP_ENTRY") {
       return res.status(409).json({
-        error: "An account with this email already exists"
+        error: "An account with this email already exists",
       });
     }
 
     console.error("Registration error:", error.message);
+
     return res.status(500).json({
-      error: "Registration failed"
+      error: "Registration failed",
     });
   }
 });
@@ -123,17 +136,25 @@ app.post("/api/auth/register", async (req, res) => {
 // Login an existing user
 app.post("/api/auth/login", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body || {};
 
-    if (!name || !email || !password) {
+    if (
+      typeof name !== "string" ||
+      typeof email !== "string" ||
+      typeof password !== "string" ||
+      !name.trim() ||
+      !email.trim() ||
+      !password
+    ) {
       return res.status(400).json({
-        error: "Name, email and password are required"
+        error: "Name, email and password are required",
       });
     }
 
     const cleanName = name.trim();
     const cleanEmail = email.trim().toLowerCase();
 
+    // Find the account using its unique email
     const [users] = await db.execute(
       "SELECT id, name, email, password_hash FROM users WHERE email = ? LIMIT 1",
       [cleanEmail]
@@ -141,55 +162,79 @@ app.post("/api/auth/login", async (req, res) => {
 
     if (users.length === 0) {
       return res.status(401).json({
-        error: "Invalid name, email or password"
+        error: "Invalid name, email or password",
       });
     }
 
     const user = users[0];
+
+    // Name must also match the registered account
+    if (user.name.trim().toLowerCase() !== cleanName.toLowerCase()) {
+      return res.status(401).json({
+        error: "Invalid name, email or password",
+      });
+    }
+
+    // Verify the entered password against the saved hash
+    if (
+      typeof user.password_hash !== "string" ||
+      !user.password_hash.startsWith("$2")
+    ) {
+      console.error("Stored password hash is invalid for user ID:", user.id);
+
+      return res.status(500).json({
+        error: "Account password data is invalid. Please register again or contact support.",
+      });
+    }
+
     const passwordMatches = await bcrypt.compare(
       password,
       user.password_hash
     );
 
-    if (
-      !passwordMatches ||
-      user.name.trim().toLowerCase() !== cleanName.toLowerCase()
-    ) {
+    if (!passwordMatches) {
       return res.status(401).json({
-        error: "Invalid name, email or password"
+        error: "Invalid name, email or password",
       });
     }
 
+    // Never issue a token without a configured secret
     if (!process.env.JWT_SECRET) {
       console.error("JWT_SECRET is missing");
+
       return res.status(500).json({
-        error: "Authentication is not configured"
+        error: "Authentication is not configured",
       });
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      {
+        id: user.id,
+        email: user.email,
+      },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      {
+        expiresIn: "2h",
+      }
     );
 
-    return res.json({
+    return res.status(200).json({
       message: "Login successful",
       token,
       user: {
         id: user.id,
         name: user.name,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   } catch (error) {
     console.error("Login error:", error.message);
+
     return res.status(500).json({
-      error: "Login failed"
+      error: "Login failed",
     });
   }
 });
-
 
 // Get all challenges
 app.get("/api/challenges", async (req, res) => {
@@ -198,12 +243,12 @@ app.get("/api/challenges", async (req, res) => {
       "SELECT * FROM challenges ORDER BY id DESC"
     );
 
-    res.json(rows);
+    return res.json(rows);
   } catch (error) {
     console.error("Challenges error:", error.message);
 
-    res.status(500).json({
-      error: "Could not fetch challenges"
+    return res.status(500).json({
+      error: "Could not fetch challenges",
     });
   }
 });
@@ -215,12 +260,12 @@ app.post("/api/challenges", async (req, res) => {
       title,
       challenge_type,
       description,
-      difficulty
-    } = req.body;
+      difficulty,
+    } = req.body || {};
 
     if (!title || !challenge_type) {
       return res.status(400).json({
-        error: "Title and challenge type are required"
+        error: "Title and challenge type are required",
       });
     }
 
@@ -232,26 +277,25 @@ app.post("/api/challenges", async (req, res) => {
         title,
         challenge_type,
         description || null,
-        difficulty || "Easy"
+        difficulty || "Easy",
       ]
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Challenge added successfully",
-      id: result.insertId
+      id: result.insertId,
     });
   } catch (error) {
     console.error("Insert error:", error.message);
 
-    res.status(500).json({
-      error: "Could not add challenge"
+    return res.status(500).json({
+      error: "Could not add challenge",
     });
   }
 });
 
 // Start server
 const PORT = process.env.PORT || 5000;
-
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`AutomataVerse backend running on port ${PORT}`);
