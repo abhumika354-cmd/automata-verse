@@ -1,8 +1,20 @@
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 
 function Home() {
+  const navigate = useNavigate();
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const handleProtectedClick = (event, path) => {
+    if (!isLoggedIn) {
+      event.preventDefault();
+      navigate("/login", {
+        state: { from: { pathname: path } },
+      });
+    }
+  };
+
   return (
     <main className="home-page">
       {/* HERO SECTION */}
@@ -24,11 +36,23 @@ function Home() {
           </p>
 
           <div className="hero-buttons">
-            <Link to="/simulator" className="primary-button">
+            <Link
+              to="/simulator"
+              onClick={(event) =>
+                handleProtectedClick(event, "/simulator")
+              }
+              className="primary-button"
+            >
               Explore Simulator →
             </Link>
 
-            <Link to="/learn" className="secondary-button">
+            <Link
+              to="/learn"
+              onClick={(event) =>
+                handleProtectedClick(event, "/learn")
+              }
+              className="secondary-button"
+            >
               Learn Automata
             </Link>
           </div>
@@ -295,7 +319,13 @@ function Home() {
 
         <div className="learning-cards">
           {/* CARD 1 — CHALLENGES */}
-          <Link to="/challenge" className="learning-card">
+          <Link
+            to="/challenge"
+            onClick={(event) =>
+              handleProtectedClick(event, "/challenge")
+            }
+            className="learning-card"
+          >
             <div className="card-top">
               <span className="card-number">01</span>
 
@@ -330,7 +360,13 @@ function Home() {
           </Link>
 
           {/* CARD 2 — PATTERNS */}
-          <Link to="/patterns" className="learning-card">
+          <Link
+            to="/patterns"
+            onClick={(event) =>
+              handleProtectedClick(event, "/patterns")
+            }
+            className="learning-card"
+          >
             <div className="card-top">
               <span className="card-number">02</span>
 
@@ -365,7 +401,13 @@ function Home() {
           </Link>
 
           {/* CARD 3 — SIMULATOR */}
-          <Link to="/simulator" className="learning-card">
+          <Link
+            to="/simulator"
+            onClick={(event) =>
+              handleProtectedClick(event, "/simulator")
+            }
+            className="learning-card"
+          >
             <div className="card-top">
               <span className="card-number">03</span>
 
@@ -552,7 +594,13 @@ function Home() {
           concepts through interaction.
         </p>
 
-        <Link to="/simulator" className="cta-button">
+        <Link
+          to="/simulator"
+          onClick={(event) =>
+            handleProtectedClick(event, "/simulator")
+          }
+          className="cta-button"
+        >
           Explore Simulator →
         </Link>
       </section>

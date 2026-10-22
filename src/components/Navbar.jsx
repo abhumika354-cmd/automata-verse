@@ -15,6 +15,16 @@ function Navbar() {
     ? userName.charAt(0).toUpperCase()
     : "";
 
+  // Login ke bina protected page open nahi hoga
+  const handleProtectedClick = (event, path) => {
+    if (!isLoggedIn) {
+      event.preventDefault();
+      navigate("/login", {
+        state: { from: { pathname: path } },
+      });
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("userName");
     localStorage.removeItem("isLoggedIn");
@@ -55,6 +65,9 @@ function Navbar() {
 
         <NavLink
           to="/learn"
+          onClick={(event) =>
+            handleProtectedClick(event, "/learn")
+          }
           className={({ isActive }) =>
             isActive
               ? "nav-link active"
@@ -66,6 +79,9 @@ function Navbar() {
 
         <NavLink
           to="/patterns"
+          onClick={(event) =>
+            handleProtectedClick(event, "/patterns")
+          }
           className={({ isActive }) =>
             isActive
               ? "nav-link active"
@@ -77,6 +93,9 @@ function Navbar() {
 
         <NavLink
           to="/simulator"
+          onClick={(event) =>
+            handleProtectedClick(event, "/simulator")
+          }
           className={({ isActive }) =>
             isActive
               ? "nav-link active"
@@ -88,6 +107,9 @@ function Navbar() {
 
         <NavLink
           to="/about"
+          onClick={(event) =>
+            handleProtectedClick(event, "/about")
+          }
           className={({ isActive }) =>
             isActive
               ? "nav-link active"

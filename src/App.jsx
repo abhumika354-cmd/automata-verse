@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 
@@ -13,6 +14,24 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
+// Login protection
+function ProtectedRoute({ children }) {
+  const location = useLocation();
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ from: location }}
+      />
+    );
+  }
+
+  return children;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -24,12 +43,59 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/gaming" element={<Gaming />} />
-        <Route path="/patterns" element={<Patterns />} />
-        <Route path="/simulator" element={<Simulator />} />
-        <Route path="/learn" element={<Learn />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/challenge" element={<Challenge />} />
+        <Route
+          path="/gaming"
+          element={
+            <ProtectedRoute>
+              <Gaming />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/patterns"
+          element={
+            <ProtectedRoute>
+              <Patterns />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/simulator"
+          element={
+            <ProtectedRoute>
+              <Simulator />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/learn"
+          element={
+            <ProtectedRoute>
+              <Learn />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <ProtectedRoute>
+              <About />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/challenge"
+          element={
+            <ProtectedRoute>
+              <Challenge />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
