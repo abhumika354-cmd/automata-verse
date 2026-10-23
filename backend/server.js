@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -12,20 +13,26 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://automata-verse.netlify.app",
+  "https://automata-verse-frontend.onrender.com",
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+// CORS configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests without an Origin header, such as health checks.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
 
-      return callback(new Error("Origin not allowed by CORS"));
-    },
-  })
-);
+    console.error("Blocked by CORS. Request origin:", origin);
+    return callback(null, false);
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // TiDB Cloud database connection
@@ -55,14 +62,14 @@ app.get("/api/health", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT 1 AS connected");
 
-    res.json({
+    return res.json({
       message: "Database connected successfully",
       database: rows[0].connected === 1 ? "Connected" : "Disconnected",
     });
   } catch (error) {
     console.error("Database error:", error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: "Database connection failed",
     });
   }
@@ -125,7 +132,7 @@ app.post("/api/auth/register", async (req, res) => {
       });
     }
 
-    console.error("Registration error:", error.message);
+    console.error("Registration error:", error);
 
     return res.status(500).json({
       error: "Registration failed",
@@ -154,7 +161,7 @@ app.post("/api/auth/login", async (req, res) => {
     const cleanName = name.trim();
     const cleanEmail = email.trim().toLowerCase();
 
-    // Find the account using its unique email
+    // Find the account using its email
     const [users] = await db.execute(
       "SELECT id, name, email, password_hash FROM users WHERE email = ? LIMIT 1",
       [cleanEmail]
@@ -168,14 +175,14 @@ app.post("/api/auth/login", async (req, res) => {
 
     const user = users[0];
 
-    // Name must also match the registered account
+    // The entered name must match the registered account
     if (user.name.trim().toLowerCase() !== cleanName.toLowerCase()) {
       return res.status(401).json({
         error: "Invalid name, email or password",
       });
     }
 
-    // Verify the entered password against the saved hash
+    // Verify the saved password hash
     if (
       typeof user.password_hash !== "string" ||
       !user.password_hash.startsWith("$2")
@@ -198,7 +205,6 @@ app.post("/api/auth/login", async (req, res) => {
       });
     }
 
-    // Never issue a token without a configured secret
     if (!process.env.JWT_SECRET) {
       console.error("JWT_SECRET is missing");
 
@@ -228,7 +234,7 @@ app.post("/api/auth/login", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login error:", error.message);
+    console.error("Login error:", error);
 
     return res.status(500).json({
       error: "Login failed",
@@ -245,7 +251,7 @@ app.get("/api/challenges", async (req, res) => {
 
     return res.json(rows);
   } catch (error) {
-    console.error("Challenges error:", error.message);
+    console.error("Challenges error:", error);
 
     return res.status(500).json({
       error: "Could not fetch challenges",
@@ -271,7 +277,7 @@ app.post("/api/challenges", async (req, res) => {
 
     const [result] = await db.execute(
       `INSERT INTO challenges
-       (title, challenge_type, description, difficulty)
+        (title, challenge_type, description, difficulty)
        VALUES (?, ?, ?, ?)`,
       [
         title,
@@ -286,12 +292,25 @@ app.post("/api/challenges", async (req, res) => {
       id: result.insertId,
     });
   } catch (error) {
-    console.error("Insert error:", error.message);
+    console.error("Insert error:", error);
 
     return res.status(500).json({
       error: "Could not add challenge",
     });
   }
+});
+
+// Handle unexpected errors
+app.use((error, req, res, next) => {
+  console.error("Server error:", error);
+
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  return res.status(500).json({
+    error: "Internal server error",
+  });
 });
 
 // Start server
