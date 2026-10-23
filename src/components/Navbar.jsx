@@ -9,7 +9,9 @@ function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const userName = localStorage.getItem("userName");
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const token = localStorage.getItem("token");
+  const isLoggedIn =
+    localStorage.getItem("isLoggedIn") === "true" && !!token;
 
   const firstLetter = userName
     ? userName.charAt(0).toUpperCase()
@@ -28,6 +30,9 @@ function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("userName");
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
 
     setIsProfileOpen(false);
 
