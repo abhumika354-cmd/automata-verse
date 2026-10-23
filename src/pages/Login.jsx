@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
@@ -21,11 +22,6 @@ function Login() {
       return;
     }
 
-    // Clear old login data before checking credentials.
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userName");
-
     try {
       setIsLoading(true);
 
@@ -46,7 +42,6 @@ function Login() {
 
       const data = await response.json().catch(() => ({}));
 
-      // Never log in when the backend rejects the credentials.
       if (!response.ok) {
         setMessage(
           data.error || data.message || "Invalid name, email or password."
@@ -54,7 +49,6 @@ function Login() {
         return;
       }
 
-      // A successful response must contain both a token and user.
       if (
         typeof data.token !== "string" ||
         !data.token ||
@@ -65,12 +59,15 @@ function Login() {
         return;
       }
 
-      // Save login state only after backend verification succeeds.
+      // Save login state after successful backend verification.
       localStorage.setItem("authToken", data.token);
+      localStorage.setItem("token", data.token);
       localStorage.setItem("userName", data.user.name);
+      localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("isLoggedIn", "true");
 
       setMessage("Login successful!");
+
       navigate("/");
     } catch (error) {
       console.error("Login request failed:", error);
