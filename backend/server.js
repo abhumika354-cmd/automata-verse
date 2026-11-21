@@ -143,22 +143,19 @@ app.post("/api/auth/register", async (req, res) => {
 // Login an existing user
 app.post("/api/auth/login", async (req, res) => {
   try {
-    const { name, email, password } = req.body || {};
+    const { email, password } = req.body || {};
 
     if (
-      typeof name !== "string" ||
       typeof email !== "string" ||
       typeof password !== "string" ||
-      !name.trim() ||
       !email.trim() ||
       !password
     ) {
       return res.status(400).json({
-        error: "Name, email and password are required",
+        error: "Email and password are required",
       });
     }
 
-    const cleanName = name.trim();
     const cleanEmail = email.trim().toLowerCase();
 
     // Find the account using its email
@@ -169,18 +166,11 @@ app.post("/api/auth/login", async (req, res) => {
 
     if (users.length === 0) {
       return res.status(401).json({
-        error: "Invalid name, email or password",
+        error: "Invalid email or password",
       });
     }
 
     const user = users[0];
-
-    // The entered name must match the registered account
-    if (user.name.trim().toLowerCase() !== cleanName.toLowerCase()) {
-      return res.status(401).json({
-        error: "Invalid name, email or password",
-      });
-    }
 
     // Verify the saved password hash
     if (
@@ -201,7 +191,7 @@ app.post("/api/auth/login", async (req, res) => {
 
     if (!passwordMatches) {
       return res.status(401).json({
-        error: "Invalid name, email or password",
+        error: "Invalid email or password",
       });
     }
 

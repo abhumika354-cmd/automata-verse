@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { recordChallengeAttempt } from "../learningProgress";
 
 import "../styles/Challenge.css";
 
@@ -2361,6 +2362,10 @@ function Challenge() {
       nextAttemptedIds.add(currentBuildQuestion.id);
 
       setBuildAttemptedIds(nextAttemptedIds);
+      recordChallengeAttempt(
+        `build:${currentBuildQuestion.id}`,
+        isBuildCorrect
+      );
 
       if (isBuildCorrect) {
         setBuildScore((previousScore) => previousScore + 1);
@@ -2503,6 +2508,10 @@ function Challenge() {
       nextAttemptedIds.add(currentQuestion.id);
 
       setDecodeAttemptedIds(nextAttemptedIds);
+      recordChallengeAttempt(
+        `decode:${currentQuestion.id}`,
+        isCorrect
+      );
 
       if (isCorrect) {
         setDecodeScore((previousScore) => previousScore + 1);
@@ -2579,6 +2588,10 @@ function Challenge() {
       nextAttemptedIds.add(currentFixQuestion.id);
 
       setFixAttemptedIds(nextAttemptedIds);
+      recordChallengeAttempt(
+        `fix:${currentFixQuestion.id}`,
+        isFixCorrect
+      );
 
       if (isFixCorrect) {
         setFixScore((previousScore) => previousScore + 1);
@@ -3017,15 +3030,6 @@ function Challenge() {
 
   return (
     <main className="challenge-page">
-      <button
-        type="button"
-        className="back-button"
-        onClick={() => window.history.back()}
-      >
-        ← Back
-      </button>
-
-
       {/* =================================================
           HERO
       ================================================= */}

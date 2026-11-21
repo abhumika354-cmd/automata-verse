@@ -1,28 +1,178 @@
+import { useEffect, useState } from "react";
+import {
+  completeLesson,
+  LEARNING_LESSONS,
+  markLessonUnread,
+  readLearningProgress,
+} from "../learningProgress";
 import "../styles/Learn.css";
 
 function Learn() {
+  const [progress, setProgress] = useState(readLearningProgress);
+  const completedLessonIds = new Set(progress.completedLessonIds);
+  const currentLessonIndex = LEARNING_LESSONS.findIndex(
+    (lesson) => !completedLessonIds.has(lesson.id)
+  );
+  const allLessonsCompleted = currentLessonIndex === -1;
+  const currentLesson = allLessonsCompleted
+    ? LEARNING_LESSONS[LEARNING_LESSONS.length - 1]
+    : LEARNING_LESSONS[currentLessonIndex];
+  const [selectedLessonId, setSelectedLessonId] = useState(
+    () => (
+      allLessonsCompleted
+        ? LEARNING_LESSONS[LEARNING_LESSONS.length - 1].id
+        : currentLesson.id
+    )
+  );
+  const selectedLessonIndex = LEARNING_LESSONS.findIndex(
+    (lesson) => lesson.id === selectedLessonId
+  );
+  const selectedLesson = selectedLessonIndex >= 0
+    ? LEARNING_LESSONS[selectedLessonIndex]
+    : currentLesson;
+  const isSelectedCompleted = completedLessonIds.has(selectedLesson.id);
+  const isSelectedCurrent = !allLessonsCompleted && selectedLesson.id === currentLesson.id;
+  const completedLessons = LEARNING_LESSONS.filter((lesson) =>
+    completedLessonIds.has(lesson.id)
+  ).length;
+
+  useEffect(() => {
+    const refreshProgress = () => setProgress(readLearningProgress());
+    window.addEventListener("learning-progress-updated", refreshProgress);
+    window.addEventListener("storage", refreshProgress);
+
+    return () => {
+      window.removeEventListener("learning-progress-updated", refreshProgress);
+      window.removeEventListener("storage", refreshProgress);
+    };
+  }, []);
+
+  const handleCompleteLesson = () => {
+    if (isSelectedCurrent) {
+      completeLesson(selectedLesson.id);
+      const nextLesson = LEARNING_LESSONS[selectedLessonIndex + 1];
+      if (nextLesson) {
+        setSelectedLessonId(nextLesson.id);
+      }
+      setProgress(readLearningProgress());
+    }
+  };
+
+  const handleMarkUnread = () => {
+    markLessonUnread(selectedLesson.id);
+    setSelectedLessonId(selectedLesson.id);
+    setProgress(readLearningProgress());
+  };
+
   return (
     <main className="learn-page">
-
       {/* HERO SECTION */}
       <section className="learn-hero">
         <div className="learn-hero-content">
           <span className="learn-badge">
-            FLAT • AUTOMATA • CONCEPTS
+            {LEARNING_LESSONS.length} LESSON COURSE • AUTOMATAVERSE
           </span>
 
-          <h1>Learn Automata</h1>
+          <h1>{selectedLesson.title}</h1>
 
-          <p>
-            Understand DFA, FSM, Regular Languages and BFS through
-            simple explanations and interactive examples.
-          </p>
+          <p>{selectedLesson.topic}</p>
         </div>
 
         <div className="learn-hero-visual">
           <div className="mini-state start">q0</div>
           <div className="mini-arrow">→</div>
           <div className="mini-state final">q1</div>
+        </div>
+      </section>
+
+      <section className="lesson-course" aria-label="AutomataVerse lesson course">
+        <div className="lesson-course-heading">
+          <div>
+            <span className="section-label">YOUR PROJECT COURSE</span>
+            <h2>{LEARNING_LESSONS.length} lessons, one concept at a time</h2>
+          </div>
+          <strong>{completedLessons} / {LEARNING_LESSONS.length} completed</strong>
+        </div>
+
+        <div className="lesson-list">
+          {LEARNING_LESSONS.map((lesson, index) => {
+            const isCompleted = completedLessonIds.has(lesson.id);
+            const isCurrent = !allLessonsCompleted && lesson.id === currentLesson.id;
+
+            return (
+              <button
+                type="button"
+                className={`lesson-list-item${isCompleted ? " completed" : ""}${isCurrent ? " current" : ""}${selectedLesson.id === lesson.id ? " selected" : ""}`}
+                key={lesson.id}
+                onClick={() => setSelectedLessonId(lesson.id)}
+                aria-pressed={selectedLesson.id === lesson.id}
+              >
+                <span className="lesson-list-number">
+                  {isCompleted ? "✓" : String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{lesson.title}</h3>
+                  <p>{lesson.topic}</p>
+                </div>
+                <span className="lesson-status">
+                  {isCompleted ? "Completed" : isCurrent ? "In progress" : "Locked"}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="active-lesson" aria-label={`${selectedLesson.title} lesson content`}>
+        <div className="active-lesson-heading">
+          <span>Lesson {String(selectedLessonIndex + 1).padStart(2, "0")}</span>
+          <h2>{selectedLesson.title}</h2>
+        </div>
+        <p className="active-lesson-summary">{selectedLesson.summary}</p>
+        <div className="lesson-key-points">
+          {selectedLesson.points.map((point, index) => (
+            <article key={point}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <p>{point}</p>
+            </article>
+          ))}
+        </div>
+        <div className="lesson-explanation-grid">
+          <article>
+            <span>DEEPER EXPLANATION</span>
+            <p>{selectedLesson.details}</p>
+          </article>
+          <article>
+            <span>WORKED EXAMPLE</span>
+            <p>{selectedLesson.example}</p>
+          </article>
+        </div>
+        <div className="lesson-practice">
+          <span>PRACTICE THIS LESSON</span>
+          <p>{selectedLesson.practice}</p>
+        </div>
+        <div className="lesson-action-row">
+          {isSelectedCompleted ? (
+            <button
+              type="button"
+              className="lesson-unread-button"
+              onClick={handleMarkUnread}
+            >
+              Mark as unread
+            </button>
+          ) : isSelectedCurrent ? (
+            <button
+              type="button"
+              className="learn-complete-button"
+              onClick={handleCompleteLesson}
+            >
+              Mark lesson complete · +50 XP
+            </button>
+          ) : (
+            <button type="button" className="learn-complete-button" disabled>
+              Complete previous lessons first
+            </button>
+          )}
         </div>
       </section>
 
@@ -293,6 +443,18 @@ function Learn() {
           automata concepts through interactive challenges.
         </p>
 
+        <button
+          type="button"
+          className="learn-complete-button"
+          onClick={handleCompleteLesson}
+          disabled={!isSelectedCurrent}
+        >
+          {isSelectedCompleted
+            ? "Lesson completed ✓"
+            : isSelectedCurrent
+              ? "Mark lesson complete · +50 XP"
+              : "Complete previous lessons first"}
+        </button>
       </section>
 
     </main>

@@ -1,10 +1,96 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  getCurrentStreak,
+  LEARNING_LESSONS,
+  readLearningProgress,
+} from "../learningProgress";
+import Icon from "../components/Icon";
+import Sidebar from "../components/Sidebar";
+import WorkspaceTopbar from "../components/WorkspaceTopbar";
 import "../styles/Home.css";
+
+function LearningDiagram() {
+  return (
+    <svg
+      className="home-dfa-diagram"
+      viewBox="0 0 460 180"
+      role="img"
+      aria-label="Automaton with states q0, q1, and accepting state q2"
+    >
+      <defs>
+        <marker
+          id="home-dfa-arrow"
+          markerWidth="8"
+          markerHeight="8"
+          refX="7"
+          refY="4"
+          orient="auto"
+        >
+          <path d="M0 0 8 4 0 8" fill="none" stroke="#171717" strokeWidth="1.4" />
+        </marker>
+      </defs>
+      <path d="M8 87h44" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <path d="M101 87h93" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <text x="147" y="77" className="home-dfa-label">0</text>
+      <path d="M247 87h82" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <text x="288" y="77" className="home-dfa-label">1</text>
+      <path d="M59 61C25 12 112 4 80 61" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <text x="55" y="24" className="home-dfa-label">1</text>
+      <path d="M207 61c-34-49 53-57 21 0" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <text x="203" y="24" className="home-dfa-label">0</text>
+      <path d="M357 114c-17 42-83 42-104 0" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <text x="305" y="153" className="home-dfa-label">0</text>
+      <path d="M351 119c-53 65-230 65-284 0" className="home-dfa-line" markerEnd="url(#home-dfa-arrow)" />
+      <text x="203" y="172" className="home-dfa-label">1</text>
+      <circle cx="76" cy="87" r="25" className="home-dfa-state" />
+      <text x="76" y="92" className="home-dfa-state-label">q0</text>
+      <circle cx="222" cy="87" r="25" className="home-dfa-state" />
+      <text x="222" y="92" className="home-dfa-state-label">q1</text>
+      <circle cx="354" cy="87" r="25" className="home-dfa-state" />
+      <circle cx="354" cy="87" r="20" className="home-dfa-final-ring" />
+      <text x="354" y="92" className="home-dfa-state-label">q2</text>
+    </svg>
+  );
+}
 
 function Home() {
   const navigate = useNavigate();
-
+  const [progress, setProgress] = useState(readLearningProgress);
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const profileName = localStorage.getItem("userName") || "Alex Morgan";
+  const firstName = profileName.trim().split(/\s+/)[0] || "Alex";
+  const streak = getCurrentStreak(progress.activityDates);
+  const courseLessonIds = new Set(LEARNING_LESSONS.map((lesson) => lesson.id));
+  const completedLessons = progress.completedLessonIds.filter((id) =>
+    courseLessonIds.has(id)
+  ).length;
+  const courseLessonCount = LEARNING_LESSONS.length;
+  const currentLesson = LEARNING_LESSONS[Math.min(completedLessons, courseLessonCount - 1)];
+  const currentCourseLesson = Math.min(
+    completedLessons + 1,
+    courseLessonCount
+  );
+  const solvedChallenges = progress.solvedChallengeIds.length;
+  const accuracy = progress.challengeAttempts
+    ? Math.round((progress.challengeCorrect / progress.challengeAttempts) * 100)
+    : 0;
+  const learningMinutes = Math.floor(progress.learningSeconds / 60);
+  const learningTime = learningMinutes >= 60
+    ? (learningMinutes / 60).toFixed(1)
+    : String(learningMinutes);
+  const learningTimeUnit = learningMinutes >= 60 ? "hours" : "minutes";
+
+  useEffect(() => {
+    const refreshProgress = () => setProgress(readLearningProgress());
+    window.addEventListener("learning-progress-updated", refreshProgress);
+    window.addEventListener("storage", refreshProgress);
+
+    return () => {
+      window.removeEventListener("learning-progress-updated", refreshProgress);
+      window.removeEventListener("storage", refreshProgress);
+    };
+  }, []);
 
   const handleProtectedClick = (event, path) => {
     if (!isLoggedIn) {
@@ -16,595 +102,185 @@ function Home() {
   };
 
   return (
-    <main className="home-page">
-      {/* HERO SECTION */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <span className="hero-badge">
-            FLAT • AUTOMATA • INTERACTIVE LEARNING
-          </span>
+    <div className="home-dashboard">
+      <Sidebar />
 
-          <h1>
-            Learn Automata
-            <span>By Playing With It.</span>
-          </h1>
+      <main className="home-main">
+        <WorkspaceTopbar />
 
-          <p className="hero-description">
-            Automata Verse is an interactive learning platform
-            where you can understand FSM, DFA, patterns and automata
-            concepts through simulation and interactive challenges.
-          </p>
+        <div className="home-content">
+          <section className="welcome-row">
+            <div>
+              <p className="home-eyebrow">YOUR LEARNING SPACE</p>
+              <h1>Welcome back, {firstName}</h1>
+              <p>Small steps. Clearer concepts. Stronger foundations.</p>
+            </div>
+            <span className="welcome-streak">{streak}-day streak</span>
+          </section>
 
-          <div className="hero-buttons">
-            <Link
-              to="/simulator"
-              onClick={(event) =>
-                handleProtectedClick(event, "/simulator")
-              }
-              className="primary-button"
-            >
-              Explore Simulator →
-            </Link>
+          <section className="continue-card">
+            <div className="continue-copy">
+              <span className="continue-label">PICK UP WHERE YOU LEFT OFF</span>
+              <h2>Turn abstract theory<br />into something you can see.</h2>
+              <p>
+                {completedLessons >= courseLessonCount
+                  ? "Course complete · Automata project"
+                  : `Lesson ${currentLesson.id.split("-")[1]} · ${currentLesson.title}`}
+              </p>
+              <div className="continue-actions">
+                <NavLink
+                  to="/learn"
+                  onClick={(event) => handleProtectedClick(event, "/learn")}
+                  className="home-action-button"
+                >
+                  Continue learning <Icon name="arrow" size={14} />
+                </NavLink>
+                <span>
+                  {completedLessons >= courseLessonCount
+                    ? `All ${courseLessonCount} lessons completed`
+                    : `Lesson ${currentCourseLesson} of ${courseLessonCount}`}
+                </span>
+              </div>
+            </div>
+            <div className="continue-visual">
+              <LearningDiagram />
+              <span>READ · TRACE · UNDERSTAND</span>
+            </div>
+          </section>
 
-            <Link
-              to="/learn"
-              onClick={(event) =>
-                handleProtectedClick(event, "/learn")
-              }
-              className="secondary-button"
-            >
-              Learn Automata
-            </Link>
-          </div>
+          <section className="learning-stats" aria-label="Learning statistics">
+            <article className="stat-card">
+              <p>Lessons completed</p>
+              <div className="stat-value">
+                {String(completedLessons).padStart(2, "0")}
+                <small>of {courseLessonCount} lessons</small>
+              </div>
+              <div className="stat-progress">
+                <span style={{ width: `${Math.min(100, (completedLessons / courseLessonCount) * 100)}%` }} />
+              </div>
+              <small className={`stat-caption${completedLessons ? " positive" : ""}`}>
+                {completedLessons
+                  ? `${Math.round((completedLessons / courseLessonCount) * 100)}% of your learning path`
+                  : "Complete a lesson to get started"}
+              </small>
+            </article>
+            <article className="stat-card">
+              <p>Challenges solved</p>
+              <div className="stat-value">
+                {String(solvedChallenges).padStart(2, "0")}
+                <small>of 18 challenges</small>
+              </div>
+              <div className="stat-progress">
+                <span style={{ width: `${Math.min(100, (solvedChallenges / 18) * 100)}%` }} />
+              </div>
+              <small className={`stat-caption${solvedChallenges ? " positive" : ""}`}>
+                {solvedChallenges
+                  ? `${solvedChallenges} challenge${solvedChallenges === 1 ? "" : "s"} solved`
+                  : "No challenges solved yet"}
+              </small>
+            </article>
+            <article className="stat-card">
+              <p>Learning time</p>
+              <div className="stat-value">
+                {learningTime}
+                <small>{learningTimeUnit}</small>
+              </div>
+              <div className="stat-progress">
+                <span style={{ width: `${Math.min(100, (learningMinutes / 60) * 100)}%` }} />
+              </div>
+              <small className="stat-caption">
+                {learningMinutes ? "Active learning time" : "Time adds up as you learn"}
+              </small>
+            </article>
+            <article className="stat-card">
+              <p>Overall accuracy</p>
+              <div className="stat-value">{accuracy}<small>%</small></div>
+              <div className="stat-progress">
+                <span style={{ width: `${accuracy}%` }} />
+              </div>
+              <small className={`stat-caption${progress.challengeAttempts ? " positive" : ""}`}>
+                {progress.challengeAttempts
+                  ? `${progress.challengeCorrect} correct of ${progress.challengeAttempts} attempts`
+                  : "No attempts yet"}
+              </small>
+            </article>
+          </section>
 
-          <div className="hero-tech-line">
-            <span>FSM</span>
-            <span>•</span>
-            <span>DFA</span>
-            <span>•</span>
-            <span>TRANSITIONS</span>
-            <span>•</span>
-            <span>REGULAR LANGUAGE</span>
-          </div>
-        </div>
+          <section className="home-next-section">
+            <div className="next-column">
+              <div className="section-title-row">
+                <h2>Your next steps</h2>
+                <NavLink
+                  to="/learn"
+                  onClick={(event) => handleProtectedClick(event, "/learn")}
+                >
+                  View learning path <Icon name="arrow" size={13} />
+                </NavLink>
+              </div>
 
-        {/* DFA SIMULATOR VISUAL */}
-        <div className="hero-visual">
-          <div className="arena-preview simulator-preview">
-            <div className="arena-top">
-              <span>DFA SIMULATOR</span>
-              <span className="live-indicator">
-                ● READY
-              </span>
+              <div className="next-steps-card">
+                <NavLink
+                  to="/learn"
+                  onClick={(event) => handleProtectedClick(event, "/learn")}
+                  className="next-step"
+                >
+                  <span className="next-step-number purple">03</span>
+                  <span className="next-step-copy">
+                    <strong>Reading a DFA</strong>
+                    <small>Follow states, transitions, and input strings.</small>
+                  </span>
+                  <span className="next-step-meta">12 min<small>Resume →</small></span>
+                </NavLink>
+                <NavLink
+                  to="/learn"
+                  onClick={(event) => handleProtectedClick(event, "/learn")}
+                  className="next-step"
+                >
+                  <span className="next-step-number blue">04</span>
+                  <span className="next-step-copy">
+                    <strong>Accepted or rejected?</strong>
+                    <small>See how a final state determines the result.</small>
+                  </span>
+                  <span className="next-step-meta">10 min<small>Read →</small></span>
+                </NavLink>
+                <NavLink
+                  to="/learn"
+                  onClick={(event) => handleProtectedClick(event, "/learn")}
+                  className="next-step"
+                >
+                  <span className="next-step-number navy">05</span>
+                  <span className="next-step-copy">
+                    <strong>From DFA to a language</strong>
+                    <small>Find the pattern behind the machine.</small>
+                  </span>
+                  <span className="next-step-meta">15 min<small>Read →</small></span>
+                </NavLink>
+              </div>
             </div>
 
-            <div className="arena-grid simulator-grid">
-              <svg
-                className="simulator-diagram"
-                viewBox="0 0 600 360"
-                role="img"
-                aria-label="DFA simulator with start state q0, accepting state q1, and transitions labelled zero and one"
+            <article className="daily-challenge">
+              <span className="daily-label">DAILY CHALLENGE</span>
+              <h2>Can you decode it?</h2>
+              <p>One machine. A hidden pattern.<br />Find the language it accepts.</p>
+              <div className="challenge-meta">
+                BEGINNER <span>·</span> 5 MIN <span>·</span> +50 XP
+              </div>
+              <NavLink
+                to="/challenge"
+                onClick={(event) => handleProtectedClick(event, "/challenge")}
+                className="challenge-button"
               >
-                <defs>
-                  <linearGradient
-                    id="simulatorLineGradient"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor="#feffff" />
-                    <stop offset="100%" stopColor="#c1f3eb" />
-                  </linearGradient>
+                Take the challenge <Icon name="arrow" size={14} />
+              </NavLink>
+            </article>
+          </section>
 
-                  <filter id="simulatorGlow">
-                    <feGaussianBlur
-                      stdDeviation="5"
-                      result="blur"
-                    />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-
-                  <marker
-                    id="simulatorArrow"
-                    markerWidth="9"
-                    markerHeight="9"
-                    refX="7"
-                    refY="3"
-                    orient="auto"
-                  >
-                    <path
-                      d="M0,0 L0,6 L7,3 z"
-                      fill="#bacaf9"
-                    />
-                  </marker>
-
-                  <marker
-                    id="simulatorTealArrow"
-                    markerWidth="9"
-                    markerHeight="9"
-                    refX="7"
-                    refY="3"
-                    orient="auto"
-                  >
-                    <path
-                      d="M0,0 L0,6 L7,3 z"
-                      fill="#d1faf3"
-                    />
-                  </marker>
-                </defs>
-
-                {/* Start arrow */}
-                <path
-                  d="M 35 180 L 105 180"
-                  stroke="#b1faee"
-                  strokeWidth="3"
-                  fill="none"
-                  markerEnd="url(#simulatorTealArrow)"
-                />
-
-                {/* Transition q0 to q1 */}
-                <path
-                  d="M 175 150 C 230 65, 365 65, 420 150"
-                  stroke="url(#simulatorLineGradient)"
-                  strokeWidth="3"
-                  fill="none"
-                  markerEnd="url(#simulatorArrow)"
-                />
-
-                <text
-                  x="300"
-                  y="85"
-                  className="simulator-transition-label"
-                  textAnchor="middle"
-                >
-                  1
-                </text>
-
-                {/* Transition q1 to q0 */}
-                <path
-                  d="M 420 210 C 365 295, 230 295, 175 210"
-                  stroke="#c5d2f7"
-                  strokeWidth="3"
-                  strokeDasharray="7 7"
-                  fill="none"
-                  markerEnd="url(#simulatorArrow)"
-                />
-
-                <text
-                  x="300"
-                  y="285"
-                  className="simulator-transition-label"
-                  textAnchor="middle"
-                >
-                  0
-                </text>
-
-                {/* q0 loop */}
-                <path
-                  d="M 112 145 C 55 65, 175 35, 155 125"
-                  stroke="#b7faef"
-                  strokeWidth="2.5"
-                  fill="none"
-                  markerEnd="url(#simulatorTealArrow)"
-                />
-
-                <text
-                  x="105"
-                  y="65"
-                  className="simulator-small-label"
-                  textAnchor="middle"
-                >
-                  0
-                </text>
-
-                {/* State q0 */}
-                <g filter="url(#simulatorGlow)">
-                  <circle
-                    cx="145"
-                    cy="180"
-                    r="49"
-                    fill="#358dad"
-                    stroke="#bffef4"
-                    strokeWidth="3"
-                  />
-
-                  <circle
-                    cx="145"
-                    cy="180"
-                    r="40"
-                    fill="none"
-                    stroke="#02fcd2"
-                    strokeOpacity="0.7"
-                    strokeWidth="2"
-                  />
-                </g>
-
-                {/* State q1 */}
-                <g filter="url(#simulatorGlow)">
-                  <circle
-                    cx="455"
-                    cy="180"
-                    r="49"
-                    fill="#358dad"
-                    stroke="#bffef4"
-                    strokeWidth="3"
-                  />
-
-                  <circle
-                    cx="455"
-                    cy="180"
-                    r="39"
-                    fill="none"
-                    stroke="#02fcd2"
-                    strokeWidth="2"
-                    strokeOpacity="0.7"
-                  />
-                </g>
-
-                <text
-                  x="145"
-                  y="188"
-                  className="simulator-state-label"
-                  textAnchor="middle"
-                >
-                  q0
-                </text>
-
-                <text
-                  x="455"
-                  y="188"
-                  className="simulator-state-label"
-                  textAnchor="middle"
-                >
-                  q1
-                </text>
-
-                <text
-                  x="145"
-                  y="248"
-                  className="simulator-caption"
-                  textAnchor="middle"
-                  fill="#ffffff"
-                >
-                  START STATE
-                </text>
-
-                <text
-                  x="455"
-                  y="248"
-                  className="simulator-caption"
-                  textAnchor="middle"
-                  fill="#ffffff"
-                >
-                  FINAL STATE
-                </text>
-              </svg>
-
-              <div className="simulator-input-chip">
-                <span>INPUT</span>
-                <strong>1 0 1 1</strong>
-              </div>
-            </div>
-
-            <div className="arena-footer">
-              <span>STATE TRANSITIONS</span>
-              <span>DFA • Σ = {"{0, 1}"}</span>
-            </div>
-          </div>
+          <footer className="home-footer">
+            Your progress is saved automatically. Keep exploring at your own pace.
+          </footer>
         </div>
-      </section>
-
-      {/* THREE WAYS TO LEARN */}
-      <section className="learning-section">
-        <div className="section-heading">
-          <p className="section-label">
-            ONE PLATFORM • THREE WAYS TO LEARN
-          </p>
-
-          <h2>
-            Understand Automata
-            <br />
-            Through Interaction
-          </h2>
-
-          <p>
-            Choose how you want to learn. Solve automata questions,
-            observe patterns or simulate automata step by step.
-          </p>
-        </div>
-
-        <div className="learning-cards">
-          {/* CARD 1 — CHALLENGES */}
-          <Link
-            to="/challenge"
-            onClick={(event) =>
-              handleProtectedClick(event, "/challenge")
-            }
-            className="learning-card"
-          >
-            <div className="card-top">
-              <span className="card-number">01</span>
-
-              <div className="card-icon gaming-icon">
-                🧠
-              </div>
-            </div>
-
-            <p className="card-label">
-              AUTOMATA CHALLENGE
-            </p>
-
-            <h3>
-              Learn While Solving Questions
-            </h3>
-
-            <p>
-              Test your automata knowledge through interactive
-              challenges. Decode a DFA, fix incorrect transitions,
-              and build the correct answer.
-            </p>
-
-            <div className="card-tags">
-              <span>DECODE</span>
-              <span>FIX DFA</span>
-              <span>BUILD</span>
-            </div>
-
-            <span className="card-link">
-              Start Challenge →
-            </span>
-          </Link>
-
-          {/* CARD 2 — PATTERNS */}
-          <Link
-            to="/patterns"
-            onClick={(event) =>
-              handleProtectedClick(event, "/patterns")
-            }
-            className="learning-card"
-          >
-            <div className="card-top">
-              <span className="card-number">02</span>
-
-              <div className="card-icon pattern-icon">
-                ◉
-              </div>
-            </div>
-
-            <p className="card-label">
-              PATTERN OBSERVATION
-            </p>
-
-            <h3>
-              Learn While Observing Patterns
-            </h3>
-
-            <p>
-              Enter binary strings and observe how a DFA
-              processes each symbol and decides whether
-              the pattern is accepted.
-            </p>
-
-            <div className="card-tags">
-              <span>DFA</span>
-              <span>LANGUAGE</span>
-              <span>PATTERNS</span>
-            </div>
-
-            <span className="card-link">
-              Test Patterns →
-            </span>
-          </Link>
-
-          {/* CARD 3 — SIMULATOR */}
-          <Link
-            to="/simulator"
-            onClick={(event) =>
-              handleProtectedClick(event, "/simulator")
-            }
-            className="learning-card"
-          >
-            <div className="card-top">
-              <span className="card-number">03</span>
-
-              <div className="card-icon simulator-icon">
-                ⟳
-              </div>
-            </div>
-
-            <p className="card-label">
-              AUTOMATA SIMULATOR
-            </p>
-
-            <h3>
-              Learn by Simulator
-            </h3>
-
-            <p>
-              Run an automaton step by step and visually
-              understand how states and transitions process
-              an input string.
-            </p>
-
-            <div className="card-tags">
-              <span>STATES</span>
-              <span>TRANSITIONS</span>
-              <span>DFA</span>
-            </div>
-
-            <span className="card-link">
-              Open Simulator →
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="process-section">
-        <div className="section-heading">
-          <p className="section-label">
-            HOW IT WORKS
-          </p>
-
-          <h2>
-            From Input to Decision
-          </h2>
-
-          <p>
-            The platform converts automata concepts into
-            simple interactive experiences.
-          </p>
-        </div>
-
-        <div className="process-flow">
-          <div className="process-step">
-            <span className="process-number">01</span>
-
-            <div className="process-icon">
-              ↓
-            </div>
-
-            <h3>Input</h3>
-
-            <p>
-              User provides a pattern or starts an
-              interactive simulation.
-            </p>
-          </div>
-
-          <div className="process-arrow">→</div>
-
-          <div className="process-step">
-            <span className="process-number">02</span>
-
-            <div className="process-icon">
-              ◎
-            </div>
-
-            <h3>Automata</h3>
-
-            <p>
-              States and transition rules process
-              the given situation.
-            </p>
-          </div>
-
-          <div className="process-arrow">→</div>
-
-          <div className="process-step">
-            <span className="process-number">03</span>
-
-            <div className="process-icon">
-              ✓
-            </div>
-
-            <h3>Decision</h3>
-
-            <p>
-              The final state or transition result
-              determines whether the input is accepted.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* FLAT CONCEPTS */}
-      <section className="concept-section">
-        <div className="concept-content">
-          <p className="section-label">
-            FLAT CONCEPTS
-          </p>
-
-          <h2>
-            Theory That You Can
-            <br />
-            Actually See.
-          </h2>
-
-          <p className="concept-description">
-            Instead of only reading automata theory,
-            this platform shows how these concepts work
-            through interactive visual experiences.
-          </p>
-
-          <div className="concept-points">
-            <div className="concept-box">
-              <span className="concept-number">01</span>
-
-              <strong>CHALLENGES</strong>
-
-              <span>
-                Decode, Fix and Build your Answer.
-              </span>
-            </div>
-
-            <div className="concept-box">
-              <span className="concept-number">02</span>
-
-              <strong>DFA</strong>
-
-              <span>
-                Validates input patterns
-              </span>
-            </div>
-
-            <div className="concept-box">
-              <span className="concept-number">03</span>
-
-              <strong>DFA SIMULATOR</strong>
-
-              <span>
-                Explore states and transitions.
-              </span>
-            </div>
-
-            <div className="concept-box">
-              <span className="concept-number">04</span>
-
-              <strong>REGULAR LANGUAGE</strong>
-
-              <span>
-                Defines accepted patterns
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="final-cta">
-        <div className="cta-glow"></div>
-
-        <p className="section-label">
-          READY TO EXPLORE?
-        </p>
-
-        <h2>
-          Enter the World
-          <br />
-          of Automata.
-        </h2>
-
-        <p>
-          Learn FSM, DFA, patterns and automata
-          concepts through interaction.
-        </p>
-
-        <Link
-          to="/simulator"
-          onClick={(event) =>
-            handleProtectedClick(event, "/simulator")
-          }
-          className="cta-button"
-        >
-          Explore Simulator →
-        </Link>
-      </section>
-    </main>
+      </main>
+    </div>
   );
 }
 

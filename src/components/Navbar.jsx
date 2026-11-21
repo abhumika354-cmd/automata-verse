@@ -28,6 +28,10 @@ function Navbar() {
   };
 
   const handleLogout = () => {
+    if (!window.confirm("Are you sure you want to log out?")) {
+      return;
+    }
+
     localStorage.removeItem("userName");
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("token");

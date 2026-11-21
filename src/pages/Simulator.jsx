@@ -2155,16 +2155,7 @@ function Simulator() {
 
   return (
     <main className="simulator-page">
-
       {/* HERO */}
-      <button
-        type="button"
-        className="back-button"
-        onClick={() => window.history.back()}
-      >
-        ← Back
-      </button>
-
       <section className="simulator-hero">
 
         <span className="simulator-tag">

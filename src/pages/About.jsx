@@ -3,7 +3,6 @@ import "../styles/About.css";
 function About() {
   return (
     <main className="about-page">
-
       {/* HERO */}
       <section className="about-hero">
         <div className="about-hero-content">

@@ -397,13 +397,6 @@ function Patterns() {
 
   return (
     <main className="patterns-page">
-      <button
-        type="button"
-        className="back-button"
-        onClick={() => window.history.back()}
-      >
-        ← Back
-      </button>
       <section className="patterns-hero">
         <div className="patterns-hero-content">
           <span className="patterns-tag">
