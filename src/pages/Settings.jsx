@@ -456,11 +456,6 @@ function Settings() {
               type="button"
               className="settings-browser-button"
               onClick={handleBrowserReminderClick}
-              disabled={
-                !browserReminders &&
-                (browserPermission === "unsupported" ||
-                  browserPermission === "denied")
-              }
             >
               {browserReminders
                 ? "Turn off browser reminders"
