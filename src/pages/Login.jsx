@@ -1,23 +1,28 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/Register.css";
 import "../styles/Login.css";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
   "https://automata-verse-api-2026.onrender.com";
-const NOTIFICATION_CHOICE_KEY = "automataVerseNotificationChoice";
 const BROWSER_NOTIFICATIONS_KEY = "automataVerseBrowserNotifications";
 
 function Login() {
+  const location = useLocation();
   const navigate = useNavigate();
+  const destination = location.state?.from?.pathname || "/";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(
+    location.state?.sessionExpired
+      ? "Your session expired. Please sign in again."
+      : ""
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
   const [isHandlingNotificationChoice, setIsHandlingNotificationChoice] =
@@ -77,20 +82,7 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("isLoggedIn", "true");
 
-      const notificationPermission =
-        "Notification" in window
-          ? window.Notification.permission
-          : "unsupported";
-      const hasNotificationChoice = Boolean(
-        localStorage.getItem(NOTIFICATION_CHOICE_KEY)
-      );
-
-      if (!hasNotificationChoice && notificationPermission === "default") {
-        setShowNotificationPrompt(true);
-        return;
-      }
-
-      navigate("/");
+      setShowNotificationPrompt(true);
     } catch (error) {
       console.error("Login request failed:", error);
       setMessage(
@@ -109,29 +101,24 @@ function Login() {
         const permission = await window.Notification.requestPermission();
 
         if (permission === "granted") {
-          localStorage.setItem(NOTIFICATION_CHOICE_KEY, "allowed");
           localStorage.setItem(BROWSER_NOTIFICATIONS_KEY, "true");
         } else if (permission === "denied") {
-          localStorage.setItem(NOTIFICATION_CHOICE_KEY, "denied");
           localStorage.removeItem(BROWSER_NOTIFICATIONS_KEY);
         }
-      } else {
-        localStorage.setItem(NOTIFICATION_CHOICE_KEY, "unsupported");
       }
     } catch (error) {
       console.error("Could not request browser notification permission:", error);
       setMessage("You can enable browser notifications later in Settings.");
     } finally {
       setShowNotificationPrompt(false);
-      navigate("/");
+      navigate(destination, { replace: true });
     }
   };
 
   const handleDeclineNotifications = () => {
-    localStorage.setItem(NOTIFICATION_CHOICE_KEY, "declined");
     localStorage.removeItem(BROWSER_NOTIFICATIONS_KEY);
     setShowNotificationPrompt(false);
-    navigate("/");
+    navigate(destination, { replace: true });
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Icon from "../components/Icon";
 import { resetLearningProgress } from "../learningProgress";
 import "../styles/Settings.css";
@@ -73,13 +74,18 @@ async function saveEmailReminderPreference(enabled) {
       );
     }
 
-    throw new Error(data.error || "Could not save email reminder settings.");
+    const error = new Error(
+      data.error || "Could not save email reminder settings."
+    );
+    error.status = response.status;
+    throw error;
   }
 
   return data;
 }
 
 function Settings() {
+  const navigate = useNavigate();
   const hasToken = Boolean(localStorage.getItem("token"));
   const [preferences, setPreferences] = useState(readPreferences);
   const [account, setAccount] = useState(readAccount);
@@ -116,6 +122,18 @@ function Settings() {
           }
         );
         const data = await response.json().catch(() => ({}));
+
+        if (response.status === 401) {
+          ["userName", "isLoggedIn", "token", "authToken", "user"].forEach(
+            (key) => localStorage.removeItem(key)
+          );
+          active = false;
+          navigate("/login", {
+            replace: true,
+            state: { sessionExpired: true, from: { pathname: "/settings" } },
+          });
+          return;
+        }
 
         if (!response.ok) {
           if (response.status === 404) {
@@ -189,7 +207,7 @@ function Settings() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [navigate]);
 
   const updatePreferences = (changes) => {
     const updated = { ...preferences, ...changes };
@@ -262,6 +280,18 @@ function Settings() {
       );
     } catch (error) {
       console.error("Could not save email reminder preferences:", error);
+
+      if (error.status === 401) {
+        ["userName", "isLoggedIn", "token", "authToken", "user"].forEach(
+          (key) => localStorage.removeItem(key)
+        );
+        navigate("/login", {
+          replace: true,
+          state: { sessionExpired: true, from: { pathname: "/settings" } },
+        });
+        return;
+      }
+
       setStatus(
         `Preference saved on this device, but email delivery is pending: ${error.message}`
       );
