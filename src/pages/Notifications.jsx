@@ -20,9 +20,9 @@ function Notifications() {
           </span>
           <h3>You’re all caught up</h3>
           <p>
-            There are no notifications yet. Your learning progress is saved
-            automatically, and reminder delivery will appear here when it is
-            available.
+            There are no in-app updates yet. You can enable daily lesson emails
+            in Settings; browser reminders require permission and appear while
+            AutomataVerse is open.
           </p>
           <button
             type="button"

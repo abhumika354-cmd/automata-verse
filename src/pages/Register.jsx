@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://automata-verse-api-2026.onrender.com";
+
 function Register() {
   const navigate = useNavigate();
 
@@ -45,7 +49,7 @@ function Register() {
       setIsLoading(true);
 
       const response = await fetch(
-        "https://automata-verse-api-2026.onrender.com/api/auth/register",
+        `${API_BASE_URL}/api/auth/register`,
         {
           method: "POST",
           headers: {

@@ -258,6 +258,57 @@
   cursor: pointer;
 }
 
+.settings-browser-notification-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 0;
+  border-top: 1px solid #e3e3e3;
+}
+
+.settings-browser-notification-row > div {
+  display: grid;
+  gap: 5px;
+}
+
+.settings-browser-notification-row strong {
+  color: #333333;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.settings-browser-notification-row small {
+  color: #777777;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.settings-browser-button {
+  min-height: 36px;
+  flex: 0 0 auto;
+  padding: 0 12px;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  color: #333333;
+  background: #ffffff;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.settings-browser-button:hover:not(:disabled) {
+  border-color: #8056ed;
+  color: #5b2bbf;
+}
+
+.settings-browser-button:disabled {
+  color: #888888;
+  background: #f3f3f3;
+  cursor: not-allowed;
+}
+
 .settings-danger-button {
   flex: 0 0 auto;
   border-color: #b42318;
@@ -299,6 +350,11 @@
   }
 
   .settings-data-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .settings-browser-notification-row {
     align-items: flex-start;
     flex-direction: column;
   }

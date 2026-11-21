@@ -4,6 +4,11 @@ import { resetLearningProgress } from "../learningProgress";
 import "../styles/Settings.css";
 
 const SETTINGS_KEY = "automataVerseSettings";
+const BROWSER_NOTIFICATIONS_KEY = "automataVerseBrowserNotifications";
+const EMAIL_REMINDER_PENDING_KEY = "automataVersePendingEmailReminder";
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://automata-verse-api-2026.onrender.com";
 const defaultPreferences = {
   dailyReminder: false,
   weeklySummary: false,
@@ -42,10 +47,53 @@ function readAccount() {
   };
 }
 
+function getBrowserPermission() {
+  return "Notification" in window ? window.Notification.permission : "unsupported";
+}
+
+async function saveEmailReminderPreference(enabled) {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  const response = await fetch(
+    `${API_BASE_URL}/api/notifications/preferences`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dailyReminder: enabled, timezone }),
+    }
+  );
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(
+        "Email reminders need the updated backend to be deployed and SMTP configured."
+      );
+    }
+
+    throw new Error(data.error || "Could not save email reminder settings.");
+  }
+
+  return data;
+}
+
 function Settings() {
+  const hasToken = Boolean(localStorage.getItem("token"));
   const [preferences, setPreferences] = useState(readPreferences);
   const [account, setAccount] = useState(readAccount);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(
+    () => (hasToken ? "" : "Sign in to manage email reminders.")
+  );
+  const [emailDeliveryAvailable, setEmailDeliveryAvailable] = useState(false);
+  const [emailPreferencesLoaded, setEmailPreferencesLoaded] =
+    useState(!hasToken);
+  const [savingEmailPreference, setSavingEmailPreference] = useState(false);
+  const [browserPermission, setBrowserPermission] = useState(getBrowserPermission);
+  const [browserReminders, setBrowserReminders] = useState(
+    () => localStorage.getItem(BROWSER_NOTIFICATIONS_KEY) === "true"
+  );
 
   useEffect(() => {
     if (preferences.reduceMotion) {
@@ -54,6 +102,94 @@ function Settings() {
       delete document.documentElement.dataset.reduceMotion;
     }
   }, [preferences.reduceMotion]);
+
+  useEffect(() => {
+    let active = true;
+    const token = localStorage.getItem("token");
+
+    const loadEmailPreferences = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/notifications/preferences`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error(
+              "Email reminders need the updated backend to be deployed and SMTP configured."
+            );
+          }
+
+          throw new Error(
+            data.error ||
+              `Email reminders are unavailable on this server (HTTP ${response.status}).`
+          );
+        }
+
+        if (!active) {
+          return;
+        }
+
+        setEmailDeliveryAvailable(data.emailDeliveryAvailable === true);
+        if (data.emailDeliveryAvailable !== true) {
+          if (readPreferences().dailyReminder) {
+            localStorage.setItem(EMAIL_REMINDER_PENDING_KEY, "true");
+          }
+          setStatus(
+            "Email reminders are not configured on the server yet."
+          );
+        } else {
+          const pendingPreference = localStorage.getItem(
+            EMAIL_REMINDER_PENDING_KEY
+          );
+
+          if (pendingPreference === "true" || pendingPreference === "false") {
+            const savedPreference = await saveEmailReminderPreference(
+              pendingPreference === "true"
+            );
+            localStorage.removeItem(EMAIL_REMINDER_PENDING_KEY);
+            const updated = {
+              ...readPreferences(),
+              dailyReminder: savedPreference.dailyReminder,
+            };
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(updated));
+            setPreferences(updated);
+          } else {
+            const updated = {
+              ...readPreferences(),
+              dailyReminder: data.dailyReminder === true,
+            };
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(updated));
+            setPreferences(updated);
+          }
+        }
+      } catch (error) {
+        console.error("Could not load email reminder preferences:", error);
+        if (active) {
+          if (readPreferences().dailyReminder) {
+            localStorage.setItem(EMAIL_REMINDER_PENDING_KEY, "true");
+          }
+          setStatus(error.message);
+        }
+      } finally {
+        if (active) {
+          setEmailPreferencesLoaded(true);
+        }
+      }
+    };
+
+    if (token) {
+      void loadEmailPreferences();
+    }
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const updatePreferences = (changes) => {
     const updated = { ...preferences, ...changes };
@@ -89,6 +225,89 @@ function Settings() {
 
     resetLearningProgress();
     setStatus("Learning progress has been reset.");
+  };
+
+  const handleEmailReminderChange = async (enabled) => {
+    const updated = { ...readPreferences(), dailyReminder: enabled };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(updated));
+    localStorage.setItem(EMAIL_REMINDER_PENDING_KEY, String(enabled));
+    setPreferences(updated);
+
+    if (!emailDeliveryAvailable) {
+      setStatus(
+        enabled
+          ? "Reminder preference saved on this device. Email delivery will start after the backend and SMTP are configured."
+          : "Email reminders are turned off. This preference will sync when the backend is available."
+      );
+      return;
+    }
+
+    setSavingEmailPreference(true);
+
+    try {
+      const data = await saveEmailReminderPreference(enabled);
+
+      const savedPreferences = {
+        ...readPreferences(),
+        dailyReminder: data.dailyReminder,
+      };
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(savedPreferences));
+      localStorage.removeItem(EMAIL_REMINDER_PENDING_KEY);
+      setPreferences(savedPreferences);
+      setEmailDeliveryAvailable(data.emailDeliveryAvailable === true);
+      setStatus(
+        data.dailyReminder
+          ? `Daily lesson reminders will be emailed to ${account.email || "your account email"} at 9:00 AM local time.`
+          : "Daily email reminders are turned off."
+      );
+    } catch (error) {
+      console.error("Could not save email reminder preferences:", error);
+      setStatus(
+        `Preference saved on this device, but email delivery is pending: ${error.message}`
+      );
+    } finally {
+      setSavingEmailPreference(false);
+    }
+  };
+
+  const handleBrowserReminderClick = async () => {
+    if (browserReminders) {
+      localStorage.removeItem(BROWSER_NOTIFICATIONS_KEY);
+      setBrowserReminders(false);
+      setStatus("Browser reminders are turned off.");
+      return;
+    }
+
+    if (!("Notification" in window)) {
+      setBrowserPermission("unsupported");
+      setStatus("This browser does not support notifications.");
+      return;
+    }
+
+    if (window.Notification.permission === "denied") {
+      setStatus(
+        "Browser notifications are blocked. Allow them in your browser's site settings."
+      );
+      return;
+    }
+
+    try {
+      const permission = await window.Notification.requestPermission();
+      setBrowserPermission(permission);
+
+      if (permission === "granted") {
+        localStorage.setItem(BROWSER_NOTIFICATIONS_KEY, "true");
+        setBrowserReminders(true);
+        setStatus(
+          "Browser reminders are allowed. They appear around 9:00 AM while AutomataVerse is open."
+        );
+      } else {
+        setStatus("Browser reminders were not allowed.");
+      }
+    } catch (error) {
+      console.error("Could not request browser notification permission:", error);
+      setStatus("Could not request browser notification permission.");
+    }
   };
 
   return (
@@ -182,17 +401,45 @@ function Settings() {
           </div>
           <label className="settings-toggle-row">
             <span>
-              <strong>Daily learning reminder</strong>
-              <small>Save your preference for a daily study reminder.</small>
+              <strong>Daily email lesson reminder</strong>
+              <small>
+                Email the lesson reminder to {account.email || "your login email"} at 9:00 AM local time.
+              </small>
             </span>
             <input
               type="checkbox"
               checked={preferences.dailyReminder}
+              disabled={savingEmailPreference}
               onChange={(event) =>
-                updatePreferences({ dailyReminder: event.target.checked })
+                handleEmailReminderChange(event.target.checked)
               }
             />
           </label>
+          <div className="settings-browser-notification-row">
+            <div>
+              <strong>Browser notifications</strong>
+              <small>
+                The browser will ask whether to allow or block reminders. They appear while AutomataVerse is open.
+              </small>
+            </div>
+            <button
+              type="button"
+              className="settings-browser-button"
+              onClick={handleBrowserReminderClick}
+              disabled={
+                browserPermission === "unsupported" ||
+                (browserPermission === "denied" && !browserReminders)
+              }
+            >
+              {browserReminders
+                ? "Turn off browser reminders"
+                : browserPermission === "denied"
+                  ? "Blocked in browser settings"
+                  : browserPermission === "granted"
+                    ? "Enable browser reminders"
+                    : "Choose Allow or Don't allow"}
+            </button>
+          </div>
           <label className="settings-toggle-row">
             <span>
               <strong>Weekly progress summary</strong>
@@ -207,7 +454,13 @@ function Settings() {
             />
           </label>
           <p className="settings-help">
-            Reminder delivery is not enabled yet; these preferences are saved on this device.
+            {!emailPreferencesLoaded
+              ? "Checking email reminder availability..."
+              : emailDeliveryAvailable
+                ? "Email delivery is configured. You can unsubscribe by turning off the daily reminder."
+                      : preferences.dailyReminder
+                        ? "Your reminder choice is saved on this device. Email delivery starts after the backend and SMTP are configured."
+                        : "Email delivery needs to be configured by the app owner. Browser reminders can be enabled separately."}
           </p>
         </section>
 

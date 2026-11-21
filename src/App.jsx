@@ -18,6 +18,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
+const BROWSER_NOTIFICATIONS_KEY = "automataVerseBrowserNotifications";
+const BROWSER_NOTIFICATION_DATE_KEY = "automataVerseBrowserReminderDate";
+
 // Login protection
 function ProtectedRoute({ children }) {
   const location = useLocation();
@@ -38,6 +41,51 @@ function ProtectedRoute({ children }) {
 
 function AppContent() {
   const location = useLocation();
+
+  useEffect(() => {
+    if (!("Notification" in window)) {
+      return undefined;
+    }
+
+    const showDailyReminder = () => {
+      if (
+        localStorage.getItem(BROWSER_NOTIFICATIONS_KEY) !== "true" ||
+        window.Notification.permission !== "granted"
+      ) {
+        return;
+      }
+
+      const now = new Date();
+      if (now.getHours() !== 9) {
+        return;
+      }
+
+      const today = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0"),
+      ].join("-");
+
+      if (localStorage.getItem(BROWSER_NOTIFICATION_DATE_KEY) === today) {
+        return;
+      }
+
+      try {
+        new window.Notification(
+          "Your AutomataVerse lesson is waiting for you",
+          { body: "Continue your learning journey with today's lesson." }
+        );
+        localStorage.setItem(BROWSER_NOTIFICATION_DATE_KEY, today);
+      } catch (error) {
+        console.error("Could not show browser learning reminder:", error);
+      }
+    };
+
+    showDailyReminder();
+    const intervalId = window.setInterval(showDailyReminder, 60_000);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const learningPaths = ["/learn", "/patterns", "/simulator", "/challenge"];
