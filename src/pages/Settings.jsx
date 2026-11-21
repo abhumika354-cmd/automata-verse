@@ -457,8 +457,9 @@ function Settings() {
               className="settings-browser-button"
               onClick={handleBrowserReminderClick}
               disabled={
-                browserPermission === "unsupported" ||
-                (browserPermission === "denied" && !browserReminders)
+                !browserReminders &&
+                (browserPermission === "unsupported" ||
+                  browserPermission === "denied")
               }
             >
               {browserReminders
