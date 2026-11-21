@@ -7,6 +7,8 @@ import "../styles/Login.css";
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
   "https://automata-verse-api-2026.onrender.com";
+const NOTIFICATION_CHOICE_KEY = "automataVerseNotificationChoice";
+const BROWSER_NOTIFICATIONS_KEY = "automataVerseBrowserNotifications";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,6 +19,9 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
+  const [isHandlingNotificationChoice, setIsHandlingNotificationChoice] =
+    useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -72,7 +77,18 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("isLoggedIn", "true");
 
-      setMessage("Login successful!");
+      const notificationPermission =
+        "Notification" in window
+          ? window.Notification.permission
+          : "unsupported";
+      const hasNotificationChoice = Boolean(
+        localStorage.getItem(NOTIFICATION_CHOICE_KEY)
+      );
+
+      if (!hasNotificationChoice && notificationPermission === "default") {
+        setShowNotificationPrompt(true);
+        return;
+      }
 
       navigate("/");
     } catch (error) {
@@ -83,6 +99,39 @@ function Login() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleAllowNotifications = async () => {
+    setIsHandlingNotificationChoice(true);
+
+    try {
+      if ("Notification" in window) {
+        const permission = await window.Notification.requestPermission();
+
+        if (permission === "granted") {
+          localStorage.setItem(NOTIFICATION_CHOICE_KEY, "allowed");
+          localStorage.setItem(BROWSER_NOTIFICATIONS_KEY, "true");
+        } else if (permission === "denied") {
+          localStorage.setItem(NOTIFICATION_CHOICE_KEY, "denied");
+          localStorage.removeItem(BROWSER_NOTIFICATIONS_KEY);
+        }
+      } else {
+        localStorage.setItem(NOTIFICATION_CHOICE_KEY, "unsupported");
+      }
+    } catch (error) {
+      console.error("Could not request browser notification permission:", error);
+      setMessage("You can enable browser notifications later in Settings.");
+    } finally {
+      setShowNotificationPrompt(false);
+      navigate("/");
+    }
+  };
+
+  const handleDeclineNotifications = () => {
+    localStorage.setItem(NOTIFICATION_CHOICE_KEY, "declined");
+    localStorage.removeItem(BROWSER_NOTIFICATIONS_KEY);
+    setShowNotificationPrompt(false);
+    navigate("/");
   };
 
   return (
@@ -279,6 +328,44 @@ function Login() {
           </div>
         </div>
       </section>
+
+      {showNotificationPrompt && (
+        <div className="login-notification-backdrop">
+          <section
+            className="login-notification-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="login-notification-title"
+            aria-describedby="login-notification-description"
+          >
+            <span className="login-notification-icon" aria-hidden="true">
+              ♢
+            </span>
+            <h2 id="login-notification-title">Stay on track with lessons</h2>
+            <p id="login-notification-description">
+              Would you like to allow daily AutomataVerse browser reminders?
+            </p>
+            <div className="login-notification-actions">
+              <button
+                type="button"
+                className="login-notification-allow"
+                onClick={handleAllowNotifications}
+                disabled={isHandlingNotificationChoice}
+              >
+                Allow
+              </button>
+              <button
+                type="button"
+                className="login-notification-decline"
+                onClick={handleDeclineNotifications}
+                disabled={isHandlingNotificationChoice}
+              >
+                Don’t allow
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }
