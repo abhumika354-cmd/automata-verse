@@ -178,10 +178,6 @@ async function sendScheduledEmailReminders() {
         continue;
       }
 
-      if (localDateTime.hour !== 9) {
-        continue;
-      }
-
       const [claim] = await db.execute(
         `UPDATE notification_preferences
          SET last_reminder_sent_date = ?

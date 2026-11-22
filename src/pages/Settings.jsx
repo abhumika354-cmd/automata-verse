@@ -275,7 +275,7 @@ function Settings() {
       setEmailDeliveryAvailable(data.emailDeliveryAvailable === true);
       setStatus(
         data.dailyReminder
-          ? `Daily lesson reminders will be emailed to ${account.email || "your account email"} at 9:00 AM local time.`
+          ? `Daily lesson reminders will be emailed to ${account.email || "your account email"} once per day.`
           : "Daily email reminders are turned off."
       );
     } catch (error) {
@@ -328,8 +328,20 @@ function Settings() {
       if (permission === "granted") {
         localStorage.setItem(BROWSER_NOTIFICATIONS_KEY, "true");
         setBrowserReminders(true);
+        try {
+          new window.Notification("AutomataVerse browser reminders are working", {
+            body: "Reminders will appear periodically while this page is open.",
+            icon: "/favicon.svg",
+          });
+          localStorage.setItem(
+            "automataVerseBrowserReminderTimestamp",
+            String(Date.now())
+          );
+        } catch (error) {
+          console.error("Could not show the browser notification test:", error);
+        }
         setStatus(
-          "Browser reminders are allowed. They appear around 9:00 AM while AutomataVerse is open."
+          "Browser reminders are allowed. A test notification was sent."
         );
       } else {
         setStatus("Browser reminders were not allowed.");
@@ -433,7 +445,7 @@ function Settings() {
             <span>
               <strong>Daily email lesson reminder</strong>
               <small>
-                Email the lesson reminder to {account.email || "your login email"} at 9:00 AM local time.
+                Email the lesson reminder to {account.email || "your login email"} once per day.
               </small>
             </span>
             <input

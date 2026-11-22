@@ -48,3 +48,15 @@ input:focus-visible {
   color: #ffffff;
   background: #7655d9;
 }
+
+/* Improve readability for supporting text without changing headings or bold copy. */
+body p,
+body small,
+body label {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+body small {
+  font-size: 12px;
+}

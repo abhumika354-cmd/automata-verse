@@ -939,3 +939,100 @@
     padding-left: 10px;
   }
 }
+
+/* Keep the home dashboard readable at desktop and mobile sizes. */
+.home-brand-copy strong {
+  font-size: 20px;
+}
+
+.home-brand-copy small,
+.home-sidebar-label,
+.sidebar-profile-copy small {
+  font-size: 15px;
+}
+
+.home-nav-link,
+.sidebar-utility button,
+.sidebar-utility-link {
+  font-size: 12px;
+}
+
+.sidebar-streak > strong {
+  font-size: 12px;
+}
+
+.sidebar-streak > p,
+.streak-days span,
+.sidebar-profile-copy strong,
+.sidebar-avatar {
+  font-size: 10px;
+}
+
+.home-breadcrumb {
+  font-size: 12px;
+}
+
+.home-search input {
+  font-size: 11px;
+}
+
+.home-search kbd {
+  font-size: 9px;
+}
+
+.xp-pill,
+.home-action-button,
+.challenge-button,
+.welcome-streak,
+.continue-label,
+.daily-label {
+  font-size: 11px;
+}
+
+.home-eyebrow {
+  font-size: 15px;
+}
+
+.welcome-row > div > p:last-child,
+.continue-copy > p,
+.daily-challenge > p {
+  font-size: 15px;
+}
+
+.continue-actions > span,
+.continue-visual > span,
+.stat-card > p,
+.stat-caption,
+.stat-value small,
+.section-title-row > a,
+.next-step-meta,
+.next-step-meta small,
+.challenge-meta,
+.home-footer {
+  font-size: 15px;
+}
+
+.home-dfa-label {
+  font-size: 11px;
+}
+
+.home-dfa-state-label {
+  font-size: 13px;
+}
+
+.section-title-row h2 {
+  font-size: 17px;
+}
+
+.next-step-copy strong {
+  font-size: 15px;
+}
+
+.next-step-copy small,
+.next-step-number {
+  font-size: 10px;
+}
+
+.daily-challenge h2 {
+  font-size: 19px;
+}

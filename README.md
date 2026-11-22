@@ -33,3 +33,16 @@ the app is open and browser permission is granted.
 Set `VITE_API_URL` in the frontend environment to use a non-default backend
 URL. After configuring SMTP, redeploy/restart the backend for email reminders
 to become available.
+
+## Render client-side routes
+
+For the Render frontend static site, configure a rewrite in the Render
+Dashboard under the frontend service's **Redirects/Rewrites** settings:
+
+- Action: **Rewrite**
+- Source: `/*`
+- Destination: `/index.html`
+
+Save the rule on the frontend static site (not the API service). A redeploy
+alone does not add this dashboard rule. Verify by opening a nested route such
+as `/learn` directly or refreshing that page.

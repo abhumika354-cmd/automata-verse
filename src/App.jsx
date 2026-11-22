@@ -19,7 +19,9 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
 const BROWSER_NOTIFICATIONS_KEY = "automataVerseBrowserNotifications";
-const BROWSER_NOTIFICATION_DATE_KEY = "automataVerseBrowserReminderDate";
+const BROWSER_NOTIFICATION_TIMESTAMP_KEY =
+  "automataVerseBrowserReminderTimestamp";
+const BROWSER_REMINDER_COOLDOWN_MS = 30 * 60 * 1000;
 
 // Login protection
 function ProtectedRoute({ children }) {
@@ -47,7 +49,7 @@ function AppContent() {
       return undefined;
     }
 
-    const showDailyReminder = () => {
+    const showBrowserReminder = () => {
       if (
         localStorage.getItem(BROWSER_NOTIFICATIONS_KEY) !== "true" ||
         window.Notification.permission !== "granted"
@@ -55,34 +57,37 @@ function AppContent() {
         return;
       }
 
-      const now = new Date();
-      if (now.getHours() !== 9) {
-        return;
-      }
+      const now = Date.now();
+      const lastReminder = Number(
+        localStorage.getItem(BROWSER_NOTIFICATION_TIMESTAMP_KEY) || 0
+      );
 
-      const today = [
-        now.getFullYear(),
-        String(now.getMonth() + 1).padStart(2, "0"),
-        String(now.getDate()).padStart(2, "0"),
-      ].join("-");
-
-      if (localStorage.getItem(BROWSER_NOTIFICATION_DATE_KEY) === today) {
+      if (now - lastReminder < BROWSER_REMINDER_COOLDOWN_MS) {
         return;
       }
 
       try {
         new window.Notification(
           "Your AutomataVerse lesson is waiting for you",
-          { body: "Continue your learning journey with today's lesson." }
+          {
+            body: "Continue your learning journey whenever you're ready.",
+            icon: "/favicon.svg",
+          }
         );
-        localStorage.setItem(BROWSER_NOTIFICATION_DATE_KEY, today);
+        localStorage.setItem(
+          BROWSER_NOTIFICATION_TIMESTAMP_KEY,
+          String(now)
+        );
       } catch (error) {
         console.error("Could not show browser learning reminder:", error);
       }
     };
 
-    showDailyReminder();
-    const intervalId = window.setInterval(showDailyReminder, 60_000);
+    showBrowserReminder();
+    const intervalId = window.setInterval(
+      showBrowserReminder,
+      BROWSER_REMINDER_COOLDOWN_MS
+    );
 
     return () => window.clearInterval(intervalId);
   }, []);
