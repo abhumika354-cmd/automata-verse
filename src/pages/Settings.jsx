@@ -17,6 +17,20 @@ const defaultPreferences = {
   reduceMotion: false,
 };
 
+function isIOSDevice() {
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
+}
+
+function isStandaloneApp() {
+  return (
+    navigator.standalone === true ||
+    window.matchMedia("(display-mode: standalone)").matches
+  );
+}
+
 function readPreferences() {
   const saved = localStorage.getItem(SETTINGS_KEY);
   if (!saved) {
@@ -308,14 +322,19 @@ function Settings() {
       return;
     }
 
+    if (isIOSDevice() && !isStandaloneApp()) {
+      setBrowserPermission("install-required");
+      setStatus(
+        "On iPhone/iPad, open this site in Safari, tap Share, then Add to Home Screen. Launch AutomataVerse from the new Home Screen icon and enable notifications here. Requires iOS/iPadOS 16.4 or newer."
+      );
+      return;
+    }
+
     if (!("Notification" in window)) {
       setBrowserPermission("unsupported");
-      const isIOS =
-        /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       setStatus(
-        isIOS
-          ? "iPhone/iPad notifications require Safari 16.4+ and installing AutomataVerse to your Home Screen."
+        isIOSDevice()
+          ? "Notifications need iOS/iPadOS 16.4 or newer and AutomataVerse installed from Safari to your Home Screen."
           : "This mobile browser does not support notifications. Use Chrome or Edge, open the HTTPS site, and allow notifications."
       );
       return;
@@ -490,7 +509,9 @@ function Settings() {
             <div>
               <strong>Browser notifications</strong>
               <small>
-                The browser will ask whether to allow or block reminders. They appear while AutomataVerse is open.
+                {isIOSDevice() && !isStandaloneApp()
+                  ? "On iPhone/iPad, use Safari Share > Add to Home Screen, then open the installed app and allow notifications. Requires iOS/iPadOS 16.4+."
+                  : "Allow notifications when asked. Reminders appear while AutomataVerse is open."}
               </small>
             </div>
             <button
@@ -502,6 +523,8 @@ function Settings() {
                 ? "Turn off browser reminders"
                 : browserPermission === "denied"
                   ? "Blocked in browser settings"
+                  : browserPermission === "install-required"
+                    ? "Install on Home Screen first"
                   : browserPermission === "granted"
                     ? "Enable browser reminders"
                     : "Choose Allow or Don't allow"}
