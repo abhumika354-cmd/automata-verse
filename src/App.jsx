@@ -49,7 +49,7 @@ function AppContent() {
       return undefined;
     }
 
-    const showBrowserReminder = () => {
+    const showBrowserReminder = async () => {
       if (
         localStorage.getItem(BROWSER_NOTIFICATIONS_KEY) !== "true" ||
         window.Notification.permission !== "granted"
@@ -67,13 +67,23 @@ function AppContent() {
       }
 
       try {
-        new window.Notification(
-          "Your AutomataVerse lesson is waiting for you",
-          {
-            body: "Continue your learning journey whenever you're ready.",
-            icon: "/favicon.svg",
-          }
-        );
+        const options = {
+          body: "Continue your learning journey whenever you're ready.",
+          icon: "/favicon.svg",
+        };
+
+        if ("serviceWorker" in navigator) {
+          const registration = await navigator.serviceWorker.ready;
+          await registration.showNotification(
+            "Your AutomataVerse lesson is waiting for you",
+            options
+          );
+        } else {
+          new window.Notification(
+            "Your AutomataVerse lesson is waiting for you",
+            options
+          );
+        }
         localStorage.setItem(
           BROWSER_NOTIFICATION_TIMESTAMP_KEY,
           String(now)

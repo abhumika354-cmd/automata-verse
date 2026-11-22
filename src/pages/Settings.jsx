@@ -310,7 +310,22 @@ function Settings() {
 
     if (!("Notification" in window)) {
       setBrowserPermission("unsupported");
-      setStatus("This browser does not support notifications.");
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      setStatus(
+        isIOS
+          ? "iPhone/iPad notifications require Safari 16.4+ and installing AutomataVerse to your Home Screen."
+          : "This mobile browser does not support notifications. Use Chrome or Edge, open the HTTPS site, and allow notifications."
+      );
+      return;
+    }
+
+    if (!window.isSecureContext) {
+      setBrowserPermission("unsupported");
+      setStatus(
+        "Browser notifications require a secure HTTPS connection. Open the deployed AutomataVerse HTTPS address."
+      );
       return;
     }
 
@@ -329,10 +344,24 @@ function Settings() {
         localStorage.setItem(BROWSER_NOTIFICATIONS_KEY, "true");
         setBrowserReminders(true);
         try {
-          new window.Notification("AutomataVerse browser reminders are working", {
-            body: "Reminders will appear periodically while this page is open.",
-            icon: "/favicon.svg",
-          });
+          if ("serviceWorker" in navigator) {
+            const registration = await navigator.serviceWorker.ready;
+            await registration.showNotification(
+              "AutomataVerse browser reminders are working",
+              {
+                body: "Reminders will appear periodically while this page is open.",
+                icon: "/favicon.svg",
+              }
+            );
+          } else {
+            new window.Notification(
+              "AutomataVerse browser reminders are working",
+              {
+                body: "Reminders will appear periodically while this page is open.",
+                icon: "/favicon.svg",
+              }
+            );
+          }
           localStorage.setItem(
             "automataVerseBrowserReminderTimestamp",
             String(Date.now())
